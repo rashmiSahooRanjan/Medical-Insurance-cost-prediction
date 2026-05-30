@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Insurance Plans - Secure Your Health</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f1f3f6;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-header .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        @media (max-width: 968px) {
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                right: -100%;
+                width: 280px;
+                height: calc(100vh - 60px);
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                flex-direction: column;
+                padding: 30px 20px;
+                gap: 15px;
+                transition: right 0.3s ease;
+                box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+                align-items: flex-start;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 12px 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 0;
+            }
+
+            .nav-links a:hover {
+                background: rgba(255, 255, 255, 0.2);
+                padding-left: 20px;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .plan-card.popular {
+            border: 2px solid #ff9f00;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #ff9f00;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .plan-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            color: #2874f0;
+            font-weight: bold;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .plan-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+            display: flex;
+            align-items: center;
+        }
+
+        .plan-features li:before {
+            content: "✓";
+            color: #388e3c;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .select-btn {
+            width: 100%;
+            padding: 15px;
+            background: #ff9f00;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .select-btn:hover {
+            background: #f08804;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-wrapper {
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .payment-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .payment-header {
+            background: #2874f0;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .payment-header h2 {
+            font-size: 1.3rem;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .payment-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            min-height: 500px;
+        }
+
+        .left-section {
+            padding: 30px;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .right-section {
+            padding: 30px;
+            background: #fafafa;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: #878787;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #c2c2c2;
+            border-radius: 2px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2874f0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .summary-row.total {
+            border-top: 1px dashed #e0e0e0;
+            padding-top: 12px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .price-details {
+            background: white;
+            border-radius: 4px;
+            padding: 20px;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 15px;
+            background: #fb641b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .place-order-btn:hover {
+            background: #e85c0a;
+        }
+
+        .payment-info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2874f0;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .payment-info-box h4 {
+            color: #2874f0;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .payment-info-box p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .payment-methods-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .payment-method-icon {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 60px 30px;
+        }
+
+        .success-screen.active {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: #388e3c;
+            margin-bottom: 20px;
+        }
+
+        .order-id {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #2874f0;
+        }
+
+        .payment-id {
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #388e3c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-header">
+        <div class="container">
+            <div class="logo">आरोग्य कवच</div>
+            <nav class="nav-links" id="navLinks">
+                <a href="../HOME PAGE/Home.html">Home</a>
+                <a href="../FEATURE PAGE/feature.html">Features</a>
+                <a href="../HOW IT WORK PAGE/working.html">How It Works</a>
+                <a href="http://localhost:8501">Calculator</a>
+                <a href="plan.html">Plans</a>
+                 <a href="/Frontend/Active Plan/Active plan.html" class="hover:text-gray-200 transition">Active Plan</a>
+
+                <a href="../TESTIMONAL PAGE/Review.html">Testimonials</a>
+                <a href="../cotact page/contact.html">Contact</a>
+            </nav>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Medical Insurance Plans</h1>
+            <p>Comprehensive Health Coverage for You and Your Family</p>
+        </div>
+
+        <div class="plans-container">
+            <div class="plan-card" data-plan="basic" data-price="5999">
+                <div class="plan-header">
+                    <h3 class="plan-name">Basic Plan</h3>
+                    <div class="plan-price">₹5,999<span>/year</span></div>
+                </div>
+                <ul class="plan-features">
+                    <li>Coverage up to ₹3 Lakhs</li>
+                    <li>Cashless Hospitalization</li>
+                    <li>Pre-existing diseases after 2 years</li>
+                    <li>Daycare Procedures</li>
+                    <li>Annual Health Check-up</li>
+                    <li>24/7 Customer Support</li>
+                </ul>
+
+                <a href="./Full1.html"><button class="select-btn">Full Details</button></a>
+
+                <button class="select-btn" onclick="storeSelectedPlan('Basic Plan', 5999); window.location.href='./Full1.html';">Buy Now</button>
+            </div>
+
+            <div class="plan-card popular" data-plan="standard" data-price="11999">
+                <span class="popular-badge">Most Popular</span>
+                <div class="plan-header">
+                    <h3 class="plan-name">Standard Plan</h3>
+                    <div class="plan-price">₹11,999<span>/year</span></div>
+                </div>
+                <ul class="plan-features">
+                    <li>Coverage up to ₹5 Lakhs</li>
+                    <li>Cashless Hospitalization</li>
+                    <li>Pre-existing diseases after 1 year</li>
+                    <li>Daycare Procedures</li>
+                    <li>Maternity Coverage</li>
+                    <li>Annual Health Check-up (2 members)</li>
+                    <li>Ambulance Charges</li>
+                    <li>No Room Rent Limit</li>
+                </ul>
+
+                <a href="./Full2.html"><button class="select-btn">Full Details</button></a>
+
+                <button class="select-btn" onclick="storeSelectedPlan('Standard Plan', 11999); window.location.href='./Full2.html';">Buy Now</button>
+            </div>
+
+            <div class="plan-card" data-plan="premium" data-price="24999">
+                <div class="plan-header">
+                    <h3 class="plan-name">Premium Plan</h3>
+                    <div class="plan-price">₹24,999<span>/year</span></div>
+                </div>
+                <ul class="plan-features">
+                    <li>Coverage up to ₹10 Lakhs</li>
+                    <li>Cashless Hospitalization</li>
+                    <li>Pre-existing diseases covered</li>
+                    <li>Daycare & Home Care</li>
+                    <li>Maternity & Newborn Coverage</li>
+                    <li>Annual Health Check-up (4 members)</li>
+                    <li>Worldwide Emergency Cover</li>
+                    <li>No Room Rent Limit</li>
+                    <li>Organ Donor Expenses</li>
+                    <li>Alternative Treatment (AYUSH)</li>
+                </ul>
+
+                <a href="./Full3.html"><button class="select-btn">Full Details</button></a>
+
+                <button class="select-btn" onclick="storeSelectedPlan('Premium Plan', 24999); window.location.href='./Full3.html';">Buy Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="paymentModal">
+        <div class="modal-wrapper">
+            <div class="payment-container">
+                <div class="payment-header">
+                    <h2>Secure Payment</h2>
+                    <button class="close-btn" onclick="closeModal()">×</button>
+                </div>
+
+                <div id="paymentSection">
+                    <div class="payment-content">
+                        <div class="left-section">
+                            <div class="section-title">Contact Information</div>
+                            <form id="contactForm">
+                                <div class="form-group">
+                                    <label>Full Name *</label>
+                                    <input type="text" id="fullName" required placeholder="Enter your full name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Mobile Number *</label>
+                                    <input type="tel" id="mobile" required placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email Address *</label>
+                                    <input type="email" id="email" required placeholder="your.email@example.com">
+                                </div>
+                            </form>
+
+                            <div class="payment-info-box">
+                                <h4>💳 Secure Payment Gateway</h4>
+                                <p>Your payment is processed through Razorpay. All transactions are encrypted and secure.</p>
+                            </div>
+
+                            <div class="section-title" style="margin-top: 30px;">Accepted Payment Methods</div>
+                            <div class="payment-methods-list">
+                                <div class="payment-method-icon"><div style="font-size: 1.5rem;">📱</div><div>UPI</div></div>
+                                <div class="payment-method-icon"><div style="font-size: 1.5rem;">💳</div><div>Cards</div></div>
+                                <div class="payment-method-icon"><div style="font-size: 1.5rem;">🏦</div><div>Net Banking</div></div>
+                                <div class="payment-method-icon"><div style="font-size: 1.5rem;">👛</div><div>Wallets</div></div>
+                                <div class="payment-method-icon"><div style="font-size: 1.5rem;">💰</div><div>EMI</div></div>
+                                <div class="payment-method-icon"><div style="font-size: 1.5rem;">🌐</div><div>International</div></div>
+                            </div>
+
+                            <button class="place-order-btn" onclick="initiatePayment()">Proceed to Payment</button>
+                        </div>
+
+                        <div class="right-section">
+                            <div class="section-title">Price Details</div>
+                            <div class="price-details">
+                                <div class="summary-row"><span>Plan Selected</span><span id="planNameDisplay">-</span></div>
+                                <div class="summary-row"><span>Plan Price</span><span id="planPriceDisplay">₹0</span></div>
+                                <div class="summary-row"><span>GST (18%)</span><span id="gstDisplay">₹0</span></div>
+                                <div class="summary-row"><span style="color: #388e3c;">Discount</span><span style="color: #388e3c;" id="discountDisplay">- ₹0</span></div>
+                                <div class="summary-row total"><span>Total Amount</span><span id="totalDisplay">₹0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-screen" id="successScreen">
+                    <div class="success-icon">✓</div>
+                    <h2>Payment Successful!</h2>
+                    <p>Thank you for choosing HealthGuard Insurance</p>
+                    <div class="order-id">Order ID: <span id="orderId"></span></div>
+                    <div class="payment-id">Payment ID: <span id="paymentId"></span></div>
+                    <p style="color: #666; margin-top: 20px;">Your policy will be active within 24 hours.</p>
+                    <button class="place-order-btn" onclick="closeModal()">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPlan = '';
+        let selectedPrice = 0;
+        let totalAmount = 0;
+
+        // Used by MyProfile.html to show only purchased plan
+        function storeSelectedPlan(planName, price) {
+            try {
+                const data = { name: planName, price: price };
+                localStorage.setItem('PurchasedPlan', JSON.stringify(data));
+                // also update user object for debugging/ future use
+                const userJson = localStorage.getItem('HealthInsureUser');
+                const user = userJson ? JSON.parse(userJson) : null;
+                if (user && user.loggedIn) {
+                    user.purchasedPlan = data;
+                    localStorage.setItem('HealthInsureUser', JSON.stringify(user));
+                }
+                console.log('PurchasedPlan stored:', data);
+            } catch (e) {
+                console.error('Failed to store purchased plan:', e);
+            }
+        }
+
+
+        function openPaymentModal(planName, price) {
+            selectedPlan = planName;
+            selectedPrice = price;
+
+            const gst = Math.round(price * 0.18);
+            const discount = Math.round(price * 0.10);
+            totalAmount = price + gst - discount;
+
+            document.getElementById('planNameDisplay').textContent = planName;
+            document.getElementById('planPriceDisplay').textContent = '₹' + price.toLocaleString('en-IN');
+            document.getElementById('gstDisplay').textContent = '₹' + gst.toLocaleString('en-IN');
+            document.getElementById('discountDisplay').textContent = '- ₹' + discount.toLocaleString('en-IN');
+            document.getElementById('totalDisplay').textContent = '₹' + totalAmount.toLocaleString('en-IN');
+
+            document.getElementById('paymentModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('paymentModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            const form = document.getElementById('contactForm');
+            if (form) form.reset();
+            const paymentSection = document.getElementById('paymentSection');
+            if (paymentSection) paymentSection.style.display = 'block';
+            const successScreen = document.getElementById('successScreen');
+            if (successScreen) successScreen.classList.remove('active');
+        }
+
+        function initiatePayment() {
+            const fullName = document.getElementById('fullName').value;
+            const mobile = document.getElementById('mobile').value;
+            const email = document.getElementById('email').value;
+
+            if (!fullName || !mobile || !email) {
+                alert('Please fill in all contact information');
+                return;
+            }
+
+            if (mobile.length !== 10) {
+                alert('Please enter a valid 10-digit mobile number');
+                return;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            const options = {
+                key: 'rzp_test_1DP5mmOlF5G5ag',
+                amount: totalAmount * 100,
+                currency: 'INR',
+                name: 'HealthGuard Insurance',
+                description: selectedPlan,
+                image: 'https://cdn-icons-png.flaticon.com/512/3209/3209283.png',
+                handler: function (response) {
+                    handlePaymentSuccess(response);
+                },
+                prefill: { name: fullName, email: email, contact: mobile },
+                notes: { plan: selectedPlan, coverage: selectedPrice },
+                theme: { color: '#2874f0' },
+                modal: { ondismiss: function () { console.log('Payment cancelled'); } }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.on('payment.failed', function (response) {
+                alert('Payment Failed: ' + response.error.description);
+                console.error('Payment Error:', response.error);
+            });
+            rzp.open();
+        }
+
+        function handlePaymentSuccess(response) {
+            const orderId = 'HG' + Date.now().toString().slice(-8);
+            document.getElementById('orderId').textContent = orderId;
+            document.getElementById('paymentId').textContent = response.razorpay_payment_id;
+
+            document.getElementById('paymentSection').style.display = 'none';
+            document.getElementById('successScreen').classList.add('active');
+        }
+
+        window.onclick = function (event) {
+            const modal = document.getElementById('paymentModal');
+            if (event.target === modal) closeModal();
+        }
+
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function (event) {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.menu-toggle');
+            if (!navLinks.contains(event.target) && menuToggle && !menuToggle.contains(event.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+
+</html>
+

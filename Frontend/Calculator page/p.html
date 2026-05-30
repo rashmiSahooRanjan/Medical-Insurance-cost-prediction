@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Insurance Cost Predictor - India</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding-top: 80px;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(44, 44, 62, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            animation: slideDown 0.5s ease;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            font-size: 1.8em;
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .navbar-menu li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            display: block;
+        }
+
+        .navbar-menu li a:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateY(-2px);
+        }
+
+        .navbar-menu li a.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .navbar-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .navbar-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .navbar-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #2c2c3e;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease;
+        }
+
+        .card h2 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #4a4a6a;
+            padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #3a3a4e;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 0.95em;
+            outline: none;
+        }
+
+        .form-group input[type="number"] {
+            padding-right: 60px;
+        }
+
+        .input-controls {
+            position: absolute;
+            right: 5px;
+            display: flex;
+            gap: 2px;
+        }
+
+        .input-controls button {
+            width: 28px;
+            height: 28px;
+            background: #4a4a6a;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .input-controls button:hover {
+            background: #667eea;
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            padding-right: 30px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        .form-group select option {
+            background: #2c2c3e;
+            color: white;
+        }
+
+        .coverage-section {
+            grid-column: 1 / -1;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .coverage-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .coverage-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .btn-predict {
+            grid-column: 1 / -1;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-predict:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .result-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: bounceIn 0.6s ease;
+        }
+
+        .premium-display {
+            margin: 20px 0;
+        }
+
+        .result-amount {
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .monthly-amount {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .breakdown {
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .breakdown h4 {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .breakdown-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-container {
+            margin: 25px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #pieChart {
+            max-width: 250px;
+            max-height: 250px;
+            margin: 0 auto;
+        }
+
+        .recommendations {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .recommendations h4 {
+            margin-bottom: 10px;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .recommendations li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .recommendations li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-download:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
+        }
+
+        .placeholder {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .placeholder-icon {
+            font-size: 80px;
+            opacity: 0.3;
+            margin-bottom: 20px;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.05;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            background: white;
+            border-radius: 50%;
+            top: 10%;
+            left: 10%;
+        }
+
+        .shape2 {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 60%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        .shape3 {
+            width: 250px;
+            height: 250px;
+            background: white;
+            border-radius: 50%;
+            bottom: 10%;
+            left: 50%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .coverage-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+
+            .navbar-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(44, 44, 62, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                transition: left 0.3s ease;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            }
+
+            .navbar-menu.active {
+                left: 0;
+            }
+
+            .navbar-menu li {
+                width: 100%;
+            }
+
+            .navbar-menu li a {
+                display: block;
+                width: 100%;
+                text-align: center;
+                padding: 15px 20px;
+            }
+
+            .navbar-toggle {
+                display: flex;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+
+        small {
+            display: block;
+            margin-top: 5px;
+            color: #b0b0b0;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#calculator" class="navbar-logo">
+                <span class="logo-icon">🏥</span>
+                <span>आरोग्य कवच</span>
+            </a>
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="#calculator" class="nav-link active">Calculator</a></li>
+                <li><a href="/Frontend/FEATURE PAGE/feature.html" class="nav-link">Features</a></li>
+                <li><a href="BMI.html" class="nav-link">BMI Calculator</a></li>
+                <li><a href="../PLANS PAGE/plan.html" class="nav-link">Plans</a></li>
+                <li><a href="../cotact page/contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="navbar-toggle" id="navbarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="floating-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Health Insurance Cost Predictor</h1>
+            <p>AI-Powered Premium Estimation System for India</p>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <h2>Enter Your Details</h2>
+                <form id="insuranceForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="age" value="30" min="18" max="100" required>
+                                <div class="input-controls">
+                                    <button type="button" onclick="decrementValue('age')">−</button>
+                                    <button type="button" onclick="incrementValue('age')">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <div class="input-wrapper">
+                                <select id="gender" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="smokingStatus">Smoker</label>
+                            <div class="input-wrapper">
+                                <select id="smokingStatus" required>
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="region">Region</label>
+                            <div class="input-wrapper">
+                                <select id="region" required>
+                                    <option value="north">North India</option>
+                                    <option value="south">South India</option>
+                                    <option value="east">East India</option>
+                                    <option value="west">West India</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dependants">Number of Dependants</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="dependants" value="0" min="0" max="10" required>
+                                <div class="input-controls">
+                                    <button type="button" onclick="decrementValue('dependants')">−</button>
+                                    <button type="button" onclick="incrementValue('dependants')">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="insurancePlan">Insurance Plan</label>
+                            <div class="input-wrapper">
+                                <select id="insurancePlan" required>
+                                    <option value="base">Base Plan</option>
+                                    <option value="standard">Standard Plan</option>
+                                    <option value="premium">Premium Plan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bmiCategory">BMI Category</label>
+                            <div class="input-wrapper">
+                                <select id="bmiCategory" required>
+                                    <option value="normal">Normal</option>
+                                    <option value="overweight">Overweight</option>
+                                    <option value="obese">Obese</option>
+                                    <option value="underweight">Underweight</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="medicalHistory">Medical History</label>
+                            <div class="input-wrapper">
+                                <select id="medicalHistory" required>
+                                    <option value="no disease">No Disease</option>
+                                    <option value="diabetes">Diabetes</option>
+                                    <option value="high blood pressure">High Blood Pressure</option>
+                                    <option value="diabetes & high blood pressure">Diabetes & High Blood Pressure
+                                    </option>
+                                    <option value="thyroid">Thyroid</option>
+                                    <option value="heart disease">Heart Disease</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="coverage-section">
+                            <h3>Coverage Details</h3>
+                            <div class="coverage-grid">
+                                <div class="form-group">
+                                    <label for="sumInsured">Sum Insured (₹)</label>
+                                    <div class="input-wrapper">
+                                        <select id="sumInsured" required>
+                                            <option value="300000">3 Lakhs</option>
+                                            <option value="500000" selected>5 Lakhs</option>
+                                            <option value="1000000">10 Lakhs</option>
+                                            <option value="1500000">15 Lakhs</option>
+                                            <option value="2000000">20 Lakhs</option>
+                                            <option value="2500000">25 Lakhs</option>
+                                            <option value="5000000">50 Lakhs</option>
+                                        </select>
+                                    </div>
+                                    <small>Recommended: ₹5-10 lakhs for individuals</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="policyTerm">Policy Term (Years)</label>
+                                    <div class="input-wrapper">
+                                        <select id="policyTerm" required>
+                                            <option value="1">1 Year</option>
+                                            <option value="2" selected>2 Years</option>
+                                            <option value="3">3 Years</option>
+                                            <option value="4">4 Years</option>
+                                            <option value="5">5 Years</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-predict">Calculate Premium</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Estimated Premium</h2>
+                <div id="resultSection" class="result-section">
+                    <h3>Annual Premium</h3>
+                    <div class="premium-display">
+                        <div class="result-amount" id="resultAmount">₹0</div>
+                        <div class="monthly-amount" id="monthlyAmount">Monthly (approx.): ₹0</div>
+                    </div>
+
+                    <div class="breakdown">
+                        <h4>Premium Breakdown</h4>
+                        <div class="breakdown-item">
+                            <span>Base Premium:</span>
+                            <strong id="baseCost">₹0</strong>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Age Factor:</span>
+                            <strong id="ageCost">₹0</strong>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Health Risk:</span>
+                            <strong id="healthCost">₹0</strong>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Region Factor:</span>
+                            <strong id="regionCost">₹0</strong>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>GST (18%):</span>
+                            <strong id="gstCost">₹0</strong>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <h4 style="color: #333; text-align: center; margin-bottom: 15px;">Cost Composition</h4>
+                        <canvas id="pieChart"></canvas>
+                    </div>
+
+                    <div class="recommendations">
+                        <h4>Recommendations</h4>
+                        <ul id="recommendationsList"></ul>
+                    </div>
+
+                    <button type="button" class="btn-download" id="downloadBtn">
+                        <span>📥</span>
+                        Download PDF Report
+                    </button>
+                </div>
+
+                <div id="placeholderImage" class="placeholder">
+                    <div class="placeholder-icon">🏥</div>
+                    <p>Fill the form and click calculate to see your insurance cost estimation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navbar functionality
+        const navbarToggle = document.getElementById('navbarToggle');
+        const navbarMenu = document.getElementById('navbarMenu');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Toggle mobile menu
+        navbarToggle.addEventListener('click', function () {
+            navbarToggle.classList.toggle('active');
+            navbarMenu.classList.toggle('active');
+        });
+
+        // Handle nav link clicks. Only prevent default for in-page anchors (href starting with '#').
+        navLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                // Close mobile menu
+                navbarToggle.classList.remove('active');
+                navbarMenu.classList.remove('active');
+
+                // Update active state
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+
+                const href = this.getAttribute('href');
+                // If link is an in-page anchor, prevent default and do smooth scroll.
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                // Otherwise allow normal navigation (link to other pages)
+            });
+        });
+
+        // Insurance calculator functionality
+        let currentPrediction = null;
+        let pieChartInstance = null;
+
+        function incrementValue(id) {
+            const input = document.getElementById(id);
+            const max = parseFloat(input.max);
+            const current = parseFloat(input.value);
+            if (current < max) {
+                input.value = current + 1;
+            }
+        }
+
+        function decrementValue(id) {
+            const input = document.getElementById(id);
+            const min = parseFloat(input.min);
+            const current = parseFloat(input.value);
+            if (current > min) {
+                input.value = current - 1;
+            }
+        }
+
+        class AdvancedInsurancePredictor {
+            constructor() {
+                this.baseRates = {
+                    base: { rate: 0.015 },
+                    standard: { rate: 0.020 },
+                    premium: { rate: 0.025 }
+                };
+            }
+
+            predict(features) {
+                const sumInsured = features.sumInsured;
+                const baseRate = this.baseRates[features.insurancePlan].rate;
+
+                let basePremium = sumInsured * baseRate;
+
+                let ageFactor = 1;
+                if (features.age < 25) ageFactor = 0.8;
+                else if (features.age < 35) ageFactor = 1;
+                else if (features.age < 45) ageFactor = 1.3;
+                else if (features.age < 55) ageFactor = 1.7;
+                else ageFactor = 2.2;
+
+                let healthFactor = 1;
+                if (features.smokingStatus === 'yes') healthFactor += 0.5;
+                if (features.bmiCategory === 'obese') healthFactor += 0.4;
+                else if (features.bmiCategory === 'overweight') healthFactor += 0.2;
+
+                const medicalRisk = {
+                    'no disease': 0,
+                    'diabetes': 0.3,
+                    'high blood pressure': 0.25,
+                    'diabetes & high blood pressure': 0.6,
+                    'thyroid': 0.2,
+                    'heart disease': 0.7
+                };
+                healthFactor += medicalRisk[features.medicalHistory];
+
+                const regionFactors = {
+                    north: 1.15,
+                    south: 1.0,
+                    east: 0.90,
+                    west: 1.10
+                };
+
+                const ageComponent = basePremium * (ageFactor - 1);
+                const healthComponent = basePremium * (healthFactor - 1);
+                const regionComponent = basePremium * (regionFactors[features.region] - 1);
+
+                let totalPremium = basePremium * ageFactor * healthFactor * regionFactors[features.region];
+                totalPremium += features.dependants * 2000;
+
+                let discount = 0;
+                if (features.policyTerm === 2) discount = 0.05;
+                else if (features.policyTerm === 3) discount = 0.10;
+                else if (features.policyTerm === 4) discount = 0.12;
+                else if (features.policyTerm === 5) discount = 0.15;
+
+                const premiumBeforeGST = totalPremium * (1 - discount);
+                const gst = premiumBeforeGST * 0.18;
+                const finalPremium = premiumBeforeGST + gst;
+
+                return {
+                    total: Math.round(finalPremium),
+                    beforeGST: Math.round(premiumBeforeGST),
+                    breakdown: {
+                        base: Math.round(basePremium),
+                        age: Math.round(ageComponent),
+                        health: Math.round(healthComponent),
+                        region: Math.round(regionComponent),
+                        gst: Math.round(gst)
+                    },
+                    discount: discount,
+                    monthly: Math.round(finalPremium / 12)
+                };
+            }
+
+            generateRecommendations(features) {
+                const recommendations = [];
+
+                if (features.sumInsured < 500000) {
+                    recommendations.push('Consider increasing coverage to at least Rs 5 lakhs');
+                }
+
+                if (features.smokingStatus === 'yes') {
+                    recommendations.push('Quit smoking to reduce premium significantly');
+                }
+
+                if (features.policyTerm === 1) {
+                    recommendations.push('Save up to 15% with multi-year policies');
+                }
+
+                if (features.medicalHistory !== 'no disease') {
+                    recommendations.push('Regular health checkups recommended');
+                }
+
+                if (recommendations.length === 0) {
+                    recommendations.push('Your coverage amount is excellent');
+                    recommendations.push('Consider adding critical illness rider');
+                }
+
+                return recommendations;
+            }
+        }
+
+        const model = new AdvancedInsurancePredictor();
+        const form = document.getElementById('insuranceForm');
+        const resultSection = document.getElementById('resultSection');
+        const placeholderImage = document.getElementById('placeholderImage');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const features = {
+                age: parseInt(document.getElementById('age').value),
+                gender: document.getElementById('gender').value,
+                smokingStatus: document.getElementById('smokingStatus').value,
+                region: document.getElementById('region').value,
+                dependants: parseInt(document.getElementById('dependants').value),
+                insurancePlan: document.getElementById('insurancePlan').value,
+                bmiCategory: document.getElementById('bmiCategory').value,
+                medicalHistory: document.getElementById('medicalHistory').value,
+                sumInsured: parseInt(document.getElementById('sumInsured').value),
+                policyTerm: parseInt(document.getElementById('policyTerm').value)
+            };
+
+            const result = model.predict(features);
+            currentPrediction = { features, result };
+
+            placeholderImage.style.display = 'none';
+            resultSection.classList.add('show');
+
+            animateValue(document.getElementById('resultAmount'), 0, result.total, 1500);
+            document.getElementById('monthlyAmount').textContent = `Monthly (approx.): ₹${result.monthly.toLocaleString('en-IN')}`;
+
+            document.getElementById('baseCost').textContent = `₹${result.breakdown.base.toLocaleString('en-IN')}`;
+            document.getElementById('ageCost').textContent = `₹${result.breakdown.age.toLocaleString('en-IN')}`;
+            document.getElementById('healthCost').textContent = `₹${result.breakdown.health.toLocaleString('en-IN')}`;
+            document.getElementById('regionCost').textContent = `₹${result.breakdown.region.toLocaleString('en-IN')}`;
+            document.getElementById('gstCost').textContent = `₹${result.breakdown.gst.toLocaleString('en-IN')}`;
+
+            createPieChart(result.breakdown);
+
+            const recommendations = model.generateRecommendations(features);
+            const recList = document.getElementById('recommendationsList');
+            recList.innerHTML = recommendations.map(rec => `<li>${rec}</li>`).join('');
+
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        function createPieChart(breakdown) {
+            const ctx = document.getElementById('pieChart').getContext('2d');
+
+            if (pieChartInstance) {
+                pieChartInstance.destroy();
+            }
+
+            pieChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Base Premium', 'Age Factor', 'Health Risk', 'Region Factor'],
+                    datasets: [{
+                        data: [breakdown.base, breakdown.age, breakdown.health, breakdown.region],
+                        backgroundColor: ['#0066CC', '#3399FF', '#66B2FF', '#99CCFF'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 10,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = `₹${value.toLocaleString('en-IN')}`;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        downloadBtn.addEventListener('click', function () {
+            if (!currentPrediction) return;
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const { features, result } = currentPrediction;
+            const now = new Date();
+
+            doc.setFontSize(20);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Medical Insurance Cost Estimate', 105, 20, { align: 'center' });
+
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Generated on ' + now.toLocaleDateString('en-GB'), 105, 28, { align: 'center' });
+
+            doc.setDrawColor(200);
+            doc.setLineWidth(0.5);
+            doc.rect(15, 40, 85, 120);
+
+            doc.setFillColor(240, 240, 240);
+            doc.rect(15, 40, 85, 10, 'F');
+
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(0);
+            doc.text('Enter Your Details', 20, 47);
+
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Basic Information', 20, 58);
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+
+            const regionName = {
+                'north': 'North India',
+                'south': 'South India',
+                'east': 'East India',
+                'west': 'West India'
+            };
+
+            const leftData = [
+                ['Age', features.age],
+                ['Gender', features.gender.charAt(0).toUpperCase() + features.gender.slice(1)],
+                ['Smoker', features.smokingStatus === 'yes' ? 'Yes' : 'No'],
+                ['Region', regionName[features.region]]
+            ];
+
+            let yPos = 65;
+            leftData.forEach(item => {
+                doc.setTextColor(100);
+                doc.text(item[0], 20, yPos);
+                doc.setTextColor(0);
+                doc.text(String(item[1]), 95, yPos, { align: 'right' });
+                yPos += 7;
+            });
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.text('Coverage Details', 20, yPos + 5);
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+
+            const sumInsuredText = (features.sumInsured / 100000) + ' Lakhs';
+            const policyTermText = features.policyTerm + ' Year' + (features.policyTerm > 1 ? 's' : '');
+
+            yPos += 12;
+            doc.setTextColor(100);
+            doc.text('Sum Insured', 20, yPos);
+            doc.setTextColor(0);
+            doc.text('Rs ' + sumInsuredText, 95, yPos, { align: 'right' });
+
+            yPos += 7;
+            doc.setTextColor(100);
+            doc.text('Policy Term', 20, yPos);
+            doc.setTextColor(0);
+            doc.text(policyTermText, 95, yPos, { align: 'right' });
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            yPos += 12;
+            doc.text('Medical History', 20, yPos);
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            yPos += 7;
+            doc.setTextColor(100);
+            doc.text('Pre-existing conditions', 20, yPos);
+
+            yPos += 7;
+            doc.setTextColor(0);
+            const medicalText = features.medicalHistory === 'no disease' ? 'None' : features.medicalHistory.charAt(0).toUpperCase() + features.medicalHistory.slice(1);
+            const medicalLines = doc.splitTextToSize(medicalText, 75);
+            doc.text(medicalLines, 20, yPos);
+
+            doc.setFillColor(240, 147, 251);
+            doc.rect(110, 40, 85, 75, 'F');
+
+            doc.setTextColor(255);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(11);
+            doc.text('Estimated Premium', 152.5, 50, { align: 'center' });
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.text('Annual Premium', 152.5, 58, { align: 'center' });
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(20);
+            doc.text('Rs ' + result.total.toLocaleString('en-IN'), 152.5, 70, { align: 'center' });
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.text('Monthly (approx.)', 152.5, 80, { align: 'center' });
+
+            doc.setFontSize(11);
+            doc.text('Rs ' + result.monthly.toLocaleString('en-IN'), 152.5, 88, { align: 'center' });
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(9);
+            doc.text('Premium Breakdown', 152.5, 100, { align: 'center' });
+
+            const breakdownData = [
+                ['Base Premium', result.breakdown.base],
+                ['Age Factor', result.breakdown.age],
+                ['Health Risk', result.breakdown.health],
+                ['Region Factor', result.breakdown.region],
+                ['GST (18%)', result.breakdown.gst]
+            ];
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            yPos = 106;
+
+            breakdownData.forEach(item => {
+                doc.setFillColor(255, 255, 255, 0.3);
+                doc.rect(115, yPos - 3, 70, 6, 'F');
+
+                doc.setTextColor(255);
+                doc.text(item[0], 118, yPos);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Rs ' + item[1].toLocaleString('en-IN'), 182, yPos, { align: 'right' });
+                doc.setFont('helvetica', 'normal');
+                yPos += 8;
+            });
+
+            doc.setFillColor(255);
+            doc.rect(15, 170, 180, 95, 'F');
+            doc.setDrawColor(200);
+            doc.rect(15, 170, 180, 95);
+
+            doc.setTextColor(0, 102, 204);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.text('Recommendations', 105, 180, { align: 'center' });
+
+            const recommendations = model.generateRecommendations(features);
+            doc.setTextColor(0);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+
+            yPos = 190;
+            recommendations.forEach((rec, index) => {
+                const recLines = doc.splitTextToSize('• ' + rec, 170);
+                doc.text(recLines, 20, yPos);
+                yPos += (recLines.length * 6) + 3;
+            });
+
+            doc.setFontSize(7);
+            doc.setTextColor(150);
+            doc.text('This is an estimated premium based on the information provided. Actual premium may vary.', 105, 275, { align: 'center' });
+            doc.text('Generated by Health Insurance Cost Predictor - HealthCare', 105, 280, { align: 'center' });
+
+            doc.save('Insurance_Premium_Estimate_' + Date.now() + '.pdf');
+        });
+    </script>
+</body>
+
+</html>

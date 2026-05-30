@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCost FAQ - Insurance Cost Prediction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #10b981;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .accordion-item.active .accordion-content {
+            max-height: 500px;
+        }
+        
+        .accordion-item.active .accordion-btn i {
+            transform: rotate(180deg);
+        }
+        
+        .highlight {
+            background-color: #fef08a;
+            padding: 2px 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
+                        <i class="fas fa-heartbeat text-white text-xl"></i>
+                    </div>
+                    <h1 class="text-xl font-bold ml-3 text-blue-800">आरोग्य कवच</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="/Frontend/HOME PAGE/Home.html" class="px-3 py-2 text-blue-800 hover:text-blue-600">Home</a>
+                    
+                    <a href="#" class="px-3 py-2 rounded-md bg-blue-50 text-blue-700 font-medium">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-50 to-indigo-50 py-12 md:py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-blue-800 mb-4">Medical Insurance Cost Prediction FAQ</h1>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto">Find answers to common questions about how we predict medical insurance costs and factors that influence pricing.</p>
+            
+            <!-- FAQ Search -->
+            <div class="mt-8 max-w-2xl mx-auto relative">
+                <div class="relative">
+                    <input type="text" id="faqSearch" placeholder="Search questions..." class="w-full px-5 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    <button id="searchBtn" class="absolute right-3 top-3 text-gray-400 hover:text-blue-600">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Categories -->
+    <section class="py-8 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button class="category-btn px-4 py-2 rounded-full bg-blue-600 text-white font-medium" data-category="all">All Questions</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium" data-category="prediction">Prediction</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium" data-category="factors">Cost Factors</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium" data-category="accuracy">Accuracy</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium" data-category="data">Data Privacy</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main FAQ Content -->
+    <section class="py-8 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto">
+                <div id="faqResults" class="space-y-4">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 fade-in" data-categories="prediction accuracy" data-index="0">
+                        <button class="accordion-btn w-full px-6 py-4 text-left hover:bg-gray-50 focus:outline-none">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium text-lg text-blue-800">How accurate is the insurance cost prediction?</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            </div>
+                        </button>
+                        <div class="accordion-content px-6 pb-4 text-gray-600">
+                            <p>Our prediction model has an accuracy rate of approximately 85-90% based on historical insurance data. We use machine learning algorithms trained on thousands of actual insurance cases across different demographics.</p>
+                            <p class="mt-3">The accuracy may vary slightly based on:</p>
+                            <ul class="list-disc pl-5 mt-2 space-y-1">
+                                <li>The completeness of your input information</li>
+                                <li>Regional insurance market variations</li>
+                                <li>Temporary changes in healthcare policy</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 fade-in" data-categories="factors" data-index="1">
+                        <button class="accordion-btn w-full px-6 py-4 text-left hover:bg-gray-50 focus:outline-none">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium text-lg text-blue-800">What factors influence insurance costs the most?</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            </div>
+                        </button>
+                        <div class="accordion-content px-6 pb-4 text-gray-600">
+                            <p>Insurance costs are determined by multiple factors, with these being the most significant:</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <div class="bg-blue-50 p-3 rounded-lg">
+                                    <h4 class="font-semibold text-blue-800">Personal Factors</h4>
+                                    <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                                        <li>Age (older individuals generally pay more)</li>
+                                        <li>BMI (higher BMI costs more)</li>
+                                        <li>Smoking status (smokers pay significantly more)</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-green-50 p-3 rounded-lg">
+                                    <h4 class="font-semibold text-green-800">Other Factors</h4>
+                                    <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                                        <li>Geographic region (costs vary by location)</li>
+                                        <li>Number of dependents/children</li>
+                                        <li>Insurance plan type and coverage level</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-sm text-gray-500">Our calculator focuses on the personal factors we can predict without knowing your specific plan details.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 fade-in" data-categories="prediction" data-index="2">
+                        <button class="accordion-btn w-full px-6 py-4 text-left hover:bg-gray-50 focus:outline-none">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium text-lg text-blue-800">How does the prediction algorithm work?</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            </div>
+                        </button>
+                        <div class="accordion-content px-6 pb-4 text-gray-600">
+                            <p>Our prediction engine uses a sophisticated machine learning model that:</p>
+                            <ol class="list-decimal pl-5 space-y-2 mt-3">
+                                <li>Analyzes historical insurance premium data from multiple providers</li>
+                                <li>Identifies patterns between personal factors and actual costs</li>
+                                <li>Creates a predictive model that adjusts for regional variations</li>
+                                <li>Continuously improves accuracy as more data becomes available</li>
+                            </ol>
+                            <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                                <img src="https://placehold.co/600x150" alt="Infographic showing insurance cost prediction flow from input data to machine learning model to cost estimate output" class="rounded-md w-full">
+                            </div>
+                            <p class="mt-3 text-sm">The model is regularly updated to reflect current market conditions.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="accordion-item bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 fade-in" data-categories="data" data-index="3">
+                        <button class="accordion-btn w-full px-6 py-4 text-left hover:bg-gray-50 focus:outline-none">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium text-lg text-blue-800">Is my personal data secure?</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            </div>
+                        </button>
+                        <div class="accordion-content px-6 pb-4 text-gray-600">
+                            <div class="flex items-start mb-4">
+                                <div class="flex-shrink-0 text-blue-500 mt-1">
+                                    <i class="fas fa-lock text-xl"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold">We take data privacy extremely seriously.</h4>
+                                    <p class="mt-1 text-sm">All calculations happen in your browser and we don't store any personal information you enter into the calculator.</p>
+                                </div>
+                            </div>
+                            <p>Our privacy practices include:</p>
+                            <ul class="list-disc pl-5 mt-2 space-y-1">
+                                <li>No personal data storage</li>
+                                <li>Encrypted connections</li>
+                                <li>No third-party tracking</li>
+                                <li>Regular security audits</li>
+                            </ul>
+                            <p class="mt-3 text-sm text-gray-500">You can use our calculator with complete confidence that your information remains private.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div class="accordion-item bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 fade-in" data-categories="factors accuracy" data-index="4">
+                        <button class="accordion-btn w-full px-6 py-4 text-left hover:bg-gray-50 focus:outline-none">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium text-lg text-blue-800">Why does my estimate differ from actual quotes?</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            </div>
+                        </button>
+                        <div class="accordion-content px-6 pb-4 text-gray-600">
+                            <p>While our estimates are highly accurate, they may differ from exact quotes for several reasons:</p>
+                            <div class="mt-3 space-y-3">
+                                <div class="flex items-start">
+                                    <span class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">1</span>
+                                    <p><strong>Plan-specific factors:</strong> Actual quotes consider exact coverage details, deductibles, and copays that we can't predict.</p>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">2</span>
+                                    <p><strong>Medical history:</strong> Some insurers request detailed health information that affects pricing.</p>
+                                </div>
+                                <div class="flex items-start">
+                                    <span class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">3</span>
+                                    <p><strong>Temporary promotions:</strong> Special offers or discounts may be available at the time you request a quote.</p>
+                                </div>
+                            </div>
+                            <p class="mt-4">Our estimate remains valuable as a benchmark to compare against actual quotes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Results Message -->
+                <div id="noResults" class="hidden text-center py-12">
+                    <div class="w-24 h-24 mx-auto mb-4 text-gray-400">
+                        <i class="fas fa-question-circle text-6xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium text-gray-700 mb-2">No matching questions found</h3>
+                    <p class="text-gray-500">Try different search terms or browse the categories above</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Help Section -->
+    <section class="py-12 bg-white border-t border-gray-200">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-2xl font-bold text-blue-800 mb-4">Still have questions?</h2>
+                <p class="text-gray-600 mb-6">Our support team is ready to help you understand insurance cost predictions better.</p>
+                <a href="/Frontend/cotact page/contact.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300 shadow-md">
+                    <i class="fas fa-envelope mr-2"></i> Contact Support
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
+                            <i class="fas fa-heartbeat text-white text-xl"></i>
+                        </div>
+                        <h2 class="text-xl font-bold ml-3">आरोग्य कवच</h2>
+                    </div>
+                    <p class="mt-2 text-gray-400 text-sm">Smart insurance cost prediction</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin fa-lg"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 MediCost. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Accordion functionality
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            accordionItems.forEach(item => {
+                const btn = item.querySelector('.accordion-btn');
+                btn.addEventListener('click', () => {
+                    // Close all other accordion items
+                    accordionItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+
+            // FAQ Search functionality
+            const faqSearch = document.getElementById('faqSearch');
+            const searchBtn = document.getElementById('searchBtn');
+            const faqItems = document.querySelectorAll('.accordion-item');
+            const noResults = document.getElementById('noResults');
+            
+            function performSearch() {
+                const searchTerm = faqSearch.value.toLowerCase().trim();
+                let hasResults = false;
+                
+                if (searchTerm === '') {
+                    // Show all questions if search is empty
+                    faqItems.forEach(item => {
+                        item.classList.remove('hidden');
+                    });
+                    noResults.classList.add('hidden');
+                    return;
+                }
+                
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.accordion-btn span').textContent.toLowerCase();
+                    const answer = item.querySelector('.accordion-content').textContent.toLowerCase();
+                    
+                    if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                        item.classList.remove('hidden');
+                        hasResults = true;
+                        
+                        // Highlight matching text
+                        if (question.includes(searchTerm)) {
+                            const highlighted = item.querySelector('.accordion-btn span').innerHTML = 
+                                item.querySelector('.accordion-btn span').textContent.replace(
+                                    new RegExp(searchTerm, 'gi'),
+                                    match => `<span class="highlight">${match}</span>`
+                                );
+                        }
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+                
+                if (!hasResults) {
+                    noResults.classList.remove('hidden');
+                } else {
+                    noResults.classList.add('hidden');
+                }
+            }
+            
+            // Event listeners
+            searchBtn.addEventListener('click', performSearch);
+            faqSearch.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Category filtering
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active category button
+                    categoryBtns.forEach(b => b.classList.remove('bg-blue-600', 'text-white'));
+                    categoryBtns.forEach(b => b.classList.add('bg-gray-200', 'text-gray-800'));
+                    btn.classList.remove('bg-gray-200', 'text-gray-800');
+                    btn.classList.add('bg-blue-600', 'text-white');
+                    
+                    const category = btn.dataset.category;
+                    
+                    if (category === 'all') {
+                        // Show all questions
+                        faqItems.forEach(item => {
+                            item.classList.remove('hidden');
+                        });
+                        noResults.classList.add('hidden');
+                        return;
+                    }
+                    
+                    let hasResults = false;
+                    
+                    faqItems.forEach(item => {
+                        const categories = item.dataset.categories.split(' ');
+                        
+                        if (categories.includes(category)) {
+                            item.classList.remove('hidden');
+                            hasResults = true;
+                        } else {
+                            item.classList.add('hidden');
+                        }
+                    });
+                    
+                    if (!hasResults) {
+                        noResults.classList.remove('hidden');
+                    } else {
+                        noResults.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

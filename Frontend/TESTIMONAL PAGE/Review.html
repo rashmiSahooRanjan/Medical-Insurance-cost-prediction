@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonials - Medical Insurance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #764ba2;
+        }
+
+        /* Container */
+        .testimonial-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .testimonial-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .testimonial-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* Add Review Button */
+        .add-review-btn {
+            background: white;
+            color: #667eea;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 2rem auto;
+            display: block;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .add-review-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            color: #999;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Star Rating */
+        .star-rating {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .star {
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s ease;
+        }
+
+        .star.active,
+        .star:hover {
+            color: #ffc107;
+        }
+
+        .submit-review-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-review-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            color: #667eea;
+            padding: 0.7rem 1.5rem;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Testimonials Grid */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Testimonial Card */
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .testimonial-header-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .user-info h3 {
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+
+        .user-info .date {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .no-reviews {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            padding: 3rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+            }
+
+            .nav-links a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            .testimonial-header h1 {
+                font-size: 2rem;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .stats-section {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+<img src="../HOME PAGE/p.jpg" alt="Logo" class="logo" height="100"width="100">
+<div class="logo">आरोग्य कवच</div>
+            <div class="nav-links">
+            <a href="/Frontend/HOME PAGE/Home.html">Home</a>
+            <a href="/Frontend/FEATURE PAGE/feature.html">Features</a>
+            <a href="/Frontend/HOW IT WORK PAGE/working.html">How It Works</a>
+            <a href="http://localhost:8501">Calculator</a>
+            <a href="/Frontend/PLANS PAGE/plan.html">Plans</a>
+                      <a href="/Frontend/Active Plan/Active plan.html" class="hover:text-gray-200 transition">Active Plan</a>
+            <a href="/Frontend/TESTIMONAL PAGE/Review.html">Testimonials</a>
+            <a href="/Frontend/cotact page/contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="testimonial-container">
+        <div class="testimonial-header">
+            <h1>What Our Customers Say</h1>
+            <p>Real stories from people we've helped protect</p>
+        </div>
+
+        <button class="add-review-btn" id="addReviewBtn">✍️ Share Your Experience</button>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-item">
+                <div class="stat-number" id="totalReviews">0</div>
+                <div class="stat-label">Total Reviews</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="averageRating">0.0</div>
+                <div class="stat-label">Average Rating</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Satisfaction Rate</div>
+            </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Reviews</button>
+            <button class="filter-btn" data-filter="5">⭐ 5 Stars</button>
+            <button class="filter-btn" data-filter="4">⭐ 4 Stars</button>
+            <button class="filter-btn" data-filter="3">⭐ 3 Stars</button>
+        </div>
+
+        <!-- Testimonials Grid -->
+        <div class="testimonials-grid" id="testimonialsGrid">
+            <div class="no-reviews">No reviews yet. Be the first to share your experience!</div>
+        </div>
+    </div>
+
+    <!-- Modal for Adding Review -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModal">&times;</button>
+            <h2>Share Your Experience</h2>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label for="reviewerName">Your Name *</label>
+                    <input type="text" id="reviewerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="reviewerLocation">Location</label>
+                    <input type="text" id="reviewerLocation" placeholder="e.g., Chennai, India">
+                </div>
+                <div class="form-group">
+                    <label>Rating *</label>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                        <span class="star" data-rating="4">★</span>
+                        <span class="star" data-rating="5">★</span>
+                    </div>
+                    <input type="hidden" id="ratingValue" required>
+                </div>
+                <div class="form-group">
+                    <label for="reviewText">Your Review *</label>
+                    <textarea id="reviewText" required placeholder="Tell us about your experience with our medical insurance..."></textarea>
+                </div>
+                <button type="submit" class="submit-review-btn">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize reviews array
+        let reviews = [
+            {
+                name: "Priya Sharma",
+                location: "Mumbai, India",
+                rating: 5,
+                text: "Arogya Kavacha has been a lifesaver for my family. When my father needed emergency surgery, the claim process was incredibly smooth and fast. Highly recommended!",
+                date: "2024-10-15"
+            },
+            {
+                name: "Rajesh Kumar",
+                location: "Delhi, India",
+                rating: 5,
+                text: "Best decision I made was choosing Arogya Kavacha. The customer service is excellent and they cover everything I need. Peace of mind is priceless!",
+                date: "2024-10-12"
+            },
+            {
+                name: "Anita Desai",
+                location: "Bangalore, India",
+                rating: 4,
+                text: "Great insurance plan with comprehensive coverage. The only minor issue was the initial paperwork, but the support team helped me through it.",
+                date: "2024-10-10"
+            }
+        ];
+
+        const modal = document.getElementById('reviewModal');
+        const addReviewBtn = document.getElementById('addReviewBtn');
+        const closeModal = document.getElementById('closeModal');
+        const reviewForm = document.getElementById('reviewForm');
+        const testimonialsGrid = document.getElementById('testimonialsGrid');
+        const stars = document.querySelectorAll('.star');
+        const ratingValue = document.getElementById('ratingValue');
+        let selectedRating = 0;
+
+        // Show modal
+        addReviewBtn.addEventListener('click', () => {
+            modal.classList.add('show');
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('show');
+            reviewForm.reset();
+            resetStars();
+        });
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+                reviewForm.reset();
+                resetStars();
+            }
+        });
+
+        // Star rating functionality
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.dataset.rating);
+                ratingValue.value = selectedRating;
+                updateStars(selectedRating);
+            });
+
+            star.addEventListener('mouseover', () => {
+                const rating = parseInt(star.dataset.rating);
+                updateStars(rating);
+            });
+        });
+
+        document.getElementById('starRating').addEventListener('mouseleave', () => {
+            updateStars(selectedRating);
+        });
+
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function resetStars() {
+            selectedRating = 0;
+            stars.forEach(star => star.classList.remove('active'));
+        }
+
+        // Submit review
+        reviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const newReview = {
+                name: document.getElementById('reviewerName').value,
+                location: document.getElementById('reviewerLocation').value || 'India',
+                rating: selectedRating,
+                text: document.getElementById('reviewText').value,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            reviews.unshift(newReview);
+            displayReviews(reviews);
+            updateStats();
+
+            modal.classList.remove('show');
+            reviewForm.reset();
+            resetStars();
+
+            // Show success message
+            alert('Thank you for your review! Your feedback has been added successfully.');
+        });
+
+        // Display reviews
+        function displayReviews(reviewsToDisplay) {
+            if (reviewsToDisplay.length === 0) {
+                testimonialsGrid.innerHTML = '<div class="no-reviews">No reviews found for this filter.</div>';
+                return;
+            }
+
+            testimonialsGrid.innerHTML = reviewsToDisplay.map(review => {
+                const initial = review.name.charAt(0).toUpperCase();
+                const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                const formattedDate = new Date(review.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                return `
+                    <div class="testimonial-card">
+                        <div class="testimonial-header-info">
+                            <div class="avatar">${initial}</div>
+                            <div class="user-info">
+                                <h3>${review.name}</h3>
+                                <div class="date">${review.location} • ${formattedDate}</div>
+                            </div>
+                        </div>
+                        <div class="rating-stars">${stars}</div>
+                        <p class="testimonial-text">${review.text}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalReviews = reviews.length;
+            const avgRating = reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews;
+
+            document.getElementById('totalReviews').textContent = totalReviews;
+            document.getElementById('averageRating').textContent = avgRating.toFixed(1);
+        }
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                if (filter === 'all') {
+                    displayReviews(reviews);
+                } else {
+                    const filtered = reviews.filter(review => review.rating === parseInt(filter));
+                    displayReviews(filtered);
+                }
+            });
+        });
+
+        // Initial display
+        displayReviews(reviews);
+        updateStats();
+    </script>
+</body>
+</html>

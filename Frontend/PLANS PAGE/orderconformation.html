@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - आरोग्य कवच</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f3f7fb; color: #1f2937; }
+        .page-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 30px; }
+        .card { background: white; max-width: 760px; width: 100%; border-radius: 20px; box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08); overflow: hidden; }
+        .hero { padding: 45px 40px; text-align: center; }
+        .hero h1 { font-size: 2.8rem; color: #1d4ed8; margin-bottom: 15px; }
+        .hero p { font-size: 1.05rem; color: #475569; line-height: 1.8; margin-bottom: 20px; }
+        .badge { display: inline-flex; align-items: center; gap: 10px; background: #dcfce7; color: #166534; padding: 12px 18px; border-radius: 999px; font-weight: 700; margin-bottom: 20px; }
+        .badge::before { content: '✓'; font-size: 1rem; }
+        .details { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 18px; padding: 0 40px 30px; }
+        .detail-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 22px; }
+        .detail-item h3 { font-size: 0.95rem; color: #0f172a; margin-bottom: 10px; }
+        .detail-item p { font-size: 1.2rem; font-weight: 700; color: #0f172a; }
+        .buttons { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; padding: 0 40px 40px; }
+        .btn { min-width: 180px; border: none; border-radius: 999px; padding: 14px 22px; font-size: 1rem; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-secondary { background: #e2e8f0; color: #1f2937; }
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 30px rgba(37, 99, 235, 0.18); }
+        .helper { text-align: center; color: #64748b; font-size: 0.98rem; padding-bottom: 25px; }
+        @media (max-width: 600px) { .hero h1 { font-size: 2rem; } .detail-item { padding: 18px; } }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <article class="card">
+            <section class="hero">
+                <div class="badge">Order Confirmed</div>
+                <h1>Thank you for choosing आरोग्य कवच</h1>
+                <p>Your health insurance plan has been successfully booked. You will receive an email confirmation shortly with the policy details and next steps.</p>
+            </section>
+
+            <section class="details">
+                <div class="detail-item">
+                    <h3>Plan Selected</h3>
+                    <p id="selectedPlan">Loading...</p>
+                </div>
+                <div class="detail-item">
+                    <h3>Amount Paid</h3>
+                    <p id="selectedAmount">₹0.00</p>
+                </div>
+                <div class="detail-item">
+                    <h3>Order Number</h3>
+                    <p id="orderNumber">-</p>
+                </div>
+                <div class="detail-item">
+                    <h3>Delivery</h3>
+                    <p>Digital policy document</p>
+                </div>
+            </section>
+
+            <section class="buttons">
+                <button class="btn btn-primary" onclick="location.href='../HOME PAGE/Home.html'">Go to Home</button>
+                <button class="btn btn-secondary" onclick="location.href='./paymentmode.html'">Review Payment</button>
+            </section>
+
+            <p class="helper">If you need help, contact support at <a href="mailto:support@arogyakavach.com">support@arogyakavach.com</a>.</p>
+        </article>
+    </div>
+
+    <script>
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }).format(value);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const plan = localStorage.getItem('selectedPlan') || 'Health Insurance Plan';
+            const amount = parseFloat(localStorage.getItem('selectedPlanAmount') || '0');
+            const orderNumber = localStorage.getItem('orderNumber') || `AR-${Math.floor(100000 + Math.random() * 900000)}`;
+
+            document.getElementById('selectedPlan').textContent = plan;
+            document.getElementById('selectedAmount').textContent = formatCurrency(amount || 0);
+            document.getElementById('orderNumber').textContent = orderNumber;
+            localStorage.setItem('orderNumber', orderNumber);
+        });
+    </script>
+</body>
+</html>

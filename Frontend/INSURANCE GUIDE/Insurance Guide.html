@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Insurance Cost Prediction Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        }
+        .chart-container {
+            height: 400px;
+            position: relative;
+        }
+        .tooltip {
+            position: absolute;
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            margin-top: -7px;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800">
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6">Smart Medical Insurance Cost Prediction</h1>
+                    <p class="text-xl md:text-2xl mb-8">Understand and predict your healthcare costs with our comprehensive guide and interactive calculator</p>
+                    <button id="calculator-btn" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Try Cost Calculator</button>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/47cef64b-0b3b-4a59-ae4d-46bf1e2da8a2.png" alt="Happy diverse family reviewing medical insurance documents together at kitchen table with laptops and paperwork" class="rounded-lg shadow-xl" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="py-16 px-4 md:px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">Understanding Medical Insurance Costs</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                    <div class="h-48 mb-4 overflow-hidden rounded-lg">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5760b4a0-4ea5-4a6e-bcba-09f042b667c8.png" alt="Insurance agent explaining policy details to couple in office with medical charts on screen" class="w-full h-full object-cover" />
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Key Cost Factors</h3>
+                    <p class="text-gray-600">Your age, location, tobacco use, and BMI significantly impact insurance premiums. Learn how to optimize these factors.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                    <div class="h-48 mb-4 overflow-hidden rounded-lg">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bb5ebc2b-9ed6-43b6-ba9b-1d6bf9f6f498.png" alt="Doctor reviewing patient chart with medical diagrams on computer screen in brightly lit office" class="w-full h-full object-cover" />
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Types of Coverage</h3>
+                    <p class="text-gray-600">Understand the differences between HMO, PPO, and high-deductible plans to choose what's right for your situation.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                    <div class="h-48 mb-4 overflow-hidden rounded-lg">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2fd8a262-66c3-4af4-804a-d90b1f95e3f4.png" alt="Senior couple using tablet to compare insurance rates while sitting on couch with financial documents" class="w-full h-full object-cover" />
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Savings Strategies</h3>
+                    <p class="text-gray-600">Discover tax-advantaged accounts and wellness programs that can reduce your overall healthcare spending.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plan Selection Guide -->
+    <section class="py-16 px-4 md:px-8 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">Choosing the Right Insurance Plan</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-3">HMO vs PPO: Key Differences</h3>
+                        <ul class="space-y-3 list-disc pl-6 text-gray-600">
+                            <li><strong>HMOs</strong> typically have lower premiums but require staying in-network</li>
+                            <li><strong>PPOs</strong> offer more flexibility but at higher costs</li>
+                            <li>Consider your typical healthcare needs and provider preferences</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-3">Understanding Deductibles</h3>
+                        <p class="text-gray-600">Higher deductibles mean lower premiums but higher out-of-pocket costs when care is needed. Choose based on your expected healthcare usage.</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5f420cc6-269e-49b8-a473-b2a6a69f11b7.png" alt="Comparison chart showing different insurance plan types with cost and coverage differences" class="rounded-lg shadow-md w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Savings Tips Section -->
+    <section class="py-16 px-4 md:px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">Top Ways to Save on Insurance</h2>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="text-blue-600 text-2xl mb-4">1</div>
+                    <h3 class="text-lg font-semibold mb-2">Wellness Programs</h3>
+                    <p class="text-gray-600">Many insurers offer discounts for completing health assessments or meeting fitness goals.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="text-blue-600 text-2xl mb-4">2</div>
+                    <h3 class="text-lg font-semibold mb-2">Family Discounts</h3>
+                    <p class="text-gray-600">Adding multiple family members may qualify you for group rates.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="text-blue-600 text-2xl mb-4">3</div>
+                    <h3 class="text-lg font-semibold mb-2">Annual Payment</h3>
+                    <p class="text-gray-600">Paying annually instead of monthly can often reduce overall costs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="py-16 px-4 md:px-8" id="calculator">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-2 text-center">Insurance Cost Calculator</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">Enter your details to get a personalized cost estimate</p>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8">
+                        <form id="insurance-form">
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2">Age</label>
+                                <input type="number" id="age" min="18" max="99" class="w-full p-3 border border-gray-300 rounded-lg" value="30">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2">BMI</label>
+                                <div class="flex items-center">
+                                    <input type="range" id="bmi" min="15" max="40" step="0.1" class="w-full mr-4" value="22">
+                                    <span id="bmi-value" class="text-gray-700">22</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2">Children</label>
+                                <input type="number" id="children" min="0" max="10" class="w-full p-3 border border-gray-300 rounded-lg" value="0">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2">Tobacco User</label>
+                                <select id="smoker" class="w-full p-3 border border-gray-300 rounded-lg">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2">Region</label>
+                                <select id="region" class="w-full p-3 border border-gray-300 rounded-lg">
+                                    <option value="northeast">Northeast</option>
+                                    <option value="northwest">Northwest</option>
+                                    <option value="southeast">Southeast</option>
+                                    <option value="southwest">Southwest</option>
+                                </select>
+                            </div>
+                            
+                            <button type="button" id="calculate-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">Calculate Estimate</button>
+                        </form>
+                    </div>
+                    
+                    <div class="md:w-1/2 bg-gray-50 p-8 flex flex-col justify-center">
+                        <div class="text-center py-8">
+                            <div class="text-gray-500 mb-2">Estimated Monthly Cost</div>
+                            <div id="result" class="text-5xl font-bold text-blue-600">$---</div>
+                        </div>
+                        
+                        <div class="chart-container mt-8">
+                            <div class="tooltip" id="chart-tooltip"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cost Breakdown Section -->
+    <section class="py-16 px-4 md:px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">How Factors Affect Your Premium</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <canvas id="costChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">Understanding the Impact</h3>
+                    <p class="text-gray-600 mb-6">Medical insurance premiums are calculated based on statistical risk factors. Our data shows how different variables affect average costs:</p>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <span>Age increases premiums approximately $250 per decade after 30</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <span>Tobacco users pay on average 3-4 times more than non-smokers</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <span>Each child adds about $500 annually to premiums</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">Frequently Asked Questions</h2>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="space-y-4">
+                    <div class="border-b border-gray-200 pb-4">
+                        <button class="flex justify-between items-center w-full text-left font-semibold focus:outline-none" onclick="toggleFAQ(1)">
+                            <span>How accurate are these cost estimates?</span>
+                            <svg id="faq-icon-1" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 transform rotate-0 transition" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div id="faq-content-1" class="mt-2 text-gray-600 hidden">
+                            Our estimates are based on national averages for insurance costs and the most significant risk factors. While we strive for accuracy, your actual costs may vary depending on your specific provider, policy details, and additional health factors not captured in our calculator.
+                        </div>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 pb-4">
+                        <button class="flex justify-between items-center w-full text-left font-semibold focus:outline-none" onclick="toggleFAQ(2)">
+                            <span>What can I do to lower my insurance costs?</span>
+                            <svg id="faq-icon-2" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 transform rotate-0 transition" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div id="faq-content-2" class="mt-2 text-gray-600 hidden">
+                            There are several strategies to reduce costs: maintain a healthy BMI, avoid tobacco use, consider higher deductibles if you're generally healthy, explore Health Savings Accounts (HSAs), and shop around during open enrollment periods. Many insurers also offer wellness programs that provide discounts.
+                        </div>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 pb-4">
+                        <button class="flex justify-between items-center w-full text-left font-semibold focus:outline-none" onclick="toggleFAQ(3)">
+                            <span>How often should I review my insurance coverage?</span>
+                            <svg id="faq-icon-3" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 transform rotate-0 transition" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div id="faq-content-3" class="mt-2 text-gray-600 hidden">
+                            We recommend reviewing your coverage annually during open enrollment periods, or whenever you experience major life changes like marriage, birth of a child, significant income changes, or changes in health status. Regularly comparing plans can help ensure you're getting the best value.
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-200 pb-4">
+                        <button class="flex justify-between items-center w-full text-left font-semibold focus:outline-none" onclick="toggleFAQ(4)">
+                            <span>What documents do I need to apply for insurance?</span>
+                            <svg id="faq-icon-4" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 transform rotate-0 transition" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div id="faq-content-4" class="mt-2 text-gray-600 hidden">
+                            Typically you'll need: proof of identity, social security number, proof of income, and information about any current health coverage. Some plans may require medical history documentation.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="gradient-bg text-white py-20 px-4 md:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Find Your Perfect Insurance Plan?</h2>
+            <p class="text-xl mb-8">Get personalized quotes from top providers in your area</p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Get Free Quotes</button>
+                <button class="bg-transparent border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition"><a href="/Frontend/cotact page/contact.html">Talk to an Expert</a></button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Insurance Guide</h3>
+                    <p class="mb-4">Helping you make informed decisions about your healthcare coverage since 2015.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-blue-400 hover:text-blue-300">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-blue-400 hover:text-blue-300">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Home</a></li>
+                        <li><a href="#" class="hover:text-white transition">Calculator</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cost Factors</a></li>
+                        <li><a href="#" class="hover:text-white transition">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Insurance Glossary</a></li>
+                        <li><a href="#" class="hover:text-white transition">State Regulations</a></li>
+                        <li><a href="#" class="hover:text-white transition">Financial Planning</a></li>
+                        <li><a href="#" class="hover:text-white transition">Wellness Tips</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-2">
+                        <li>GIET UNIVERSITY</li>
+                        <li>GUNUPUR,ODISHA</li>
+                        <li>support@आरोग्य कवच.com</li>
+                        <li>+91 9348698773</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-sm">
+                <p>© 2025 Insurance Guide. All rights reserved. This tool provides estimates only and is not an offer of insurance. Please consult with licensed insurance professionals for specific advice.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Calculator functionality
+        document.getElementById('calculator-btn').addEventListener('click', () => {
+            document.getElementById('calculator').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        document.getElementById('bmi').addEventListener('input', (e) => {
+            document.getElementById('bmi-value').textContent = e.target.value;
+        });
+
+        document.getElementById('calculate-btn').addEventListener('click', calculatePremium);
+
+        function calculatePremium() {
+            // Get form values
+            const age = parseInt(document.getElementById('age').value);
+            const bmi = parseFloat(document.getElementById('bmi').value);
+            const children = parseInt(document.getElementById('children').value);
+            const smoker = parseInt(document.getElementById('smoker').value);
+            const region = document.getElementById('region').value;
+            
+            // Simple premium calculation (for demo purposes)
+            let baseCost = 250;
+            
+            // Age factor
+            if (age > 40) {
+                baseCost += (age - 40) * 25;
+            }
+            
+            // BMI factor
+            if (bmi > 30) {
+                baseCost += (bmi - 30) * 20;
+            } else if (bmi < 18.5) {
+                baseCost += (18.5 - bmi) * 15;
+            }
+            
+            // Children factor
+            baseCost += children * 42;
+            
+            // Smoker factor
+            if (smoker) {
+                baseCost *= 3;
+            }
+            
+            // Region factor (very simplified)
+            const regionFactors = {
+                'northeast': 1.1,
+                'northwest': 1.0,
+                'southeast': 0.95,
+                'southwest': 0.9
+            };
+            baseCost *= regionFactors[region];
+            
+            // Display result
+            document.getElementById('result').textContent = `$${Math.round(baseCost)}`;
+            
+            // Update chart
+            updateChart(age, bmi, children, smoker, region);
+        }
+
+        // Initialize chart
+        let costChart;
+        
+        function initChart() {
+            const ctx = document.getElementById('costChart').getContext('2d');
+            costChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Base Cost', 'Age', 'BMI', 'Children', 'Tobacco Use', 'Region'],
+                    datasets: [{
+                        label: 'Cost Components',
+                        data: [250, 0, 0, 0, 0, 0],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(139, 92, 246, 0.7)',
+                            'rgba(239, 68, 68, 0.7)',
+                            'rgba(20, 184, 166, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(20, 184, 166, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `$${context.raw.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return `$${value}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart(age, bmi, children, smoker, region) {
+            // Calculate components
+            let ageFactor = Math.max(0, (age - 40)) * 25;
+            let bmiFactor = bmi > 30 ? (bmi - 30) * 20 : (bmi < 18.5 ? (18.5 - bmi) * 15 : 0);
+            let childrenFactor = children * 42;
+            
+            const regionFactors = {
+                'northeast': 1.1,
+                'northwest': 1.0,
+                'southeast': 0.95,
+                'southwest': 0.9
+            };
+            let regionMultiplier = regionFactors[region];
+            
+            // We need to calculate the base cost affected by region multiplier
+            let baseCost = 250 * regionMultiplier;
+            
+            // Then adjust other factors by region
+            ageFactor *= regionMultiplier;
+            bmiFactor *= regionMultiplier;
+            childrenFactor *= regionMultiplier;
+            
+            let tobaccoFactor = smoker ? baseCost * 2 : 0; // x3 total = baseCost + baseCost*2
+            
+            costChart.data.datasets[0].data = [
+                baseCost,
+                ageFactor,
+                bmiFactor,
+                childrenFactor,
+                tobaccoFactor,
+                0 // Region is built into the factors
+            ];
+            
+            costChart.update();
+        }
+
+        // FAQ toggle
+        function toggleFAQ(num) {
+            const content = document.getElementById(`faq-content-${num}`);
+            const icon = document.getElementById(`faq-icon-${num}`);
+            
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+            calculatePremium(); // Show example calculation on load
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

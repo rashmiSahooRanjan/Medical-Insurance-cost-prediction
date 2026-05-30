@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment - MediCare</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --success: #2e7d32;
+            --primary: #1e88e5;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
+
+        .header-container {
+            background: white;
+            border-bottom: 3px solid var(--success);
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo { font-size: 28px; font-weight: 700; color: var(--success); }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .right { flex: 1; min-width: 380px; }
+        .left { width: 320px; }
+
+        .payment-container { display: flex; gap: 20px; }
+        .payment-box-1 {
+            width: 220px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .box {
+            padding: 14px 18px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .selected-tab {
+            background: #e8f5e9;
+            color: var(--success);
+            border-left: 4px solid var(--success);
+            font-weight: 600;
+        }
+
+        .payment-box-2 {
+            flex: 1;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            display: none;
+        }
+        .selected-box { display: block; }
+
+        .pay-head { font-size: 18px; font-weight: 600; margin-bottom: 15px; }
+        .payment-box-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .pay-img-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .pay-col {
+            text-align: center;
+            width: 85px;
+            padding: 8px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .pay-col.selected {
+            border-color: var(--success);
+            background: #e8f5e9;
+        }
+        .pay-col img { width: 55px; height: 45px; object-fit: contain; }
+
+        .btn-payment {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            width: 100%;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .warning { color: red; font-size: 13px; }
+    </style>
+</head>
+<body>
+<div class="header-container">
+        <div class="logo">
+                                <img src="p.jpg" alt="HealthInsure logo - Shield with heart icon in purple and white" class="h-10" height="100px" width="100px">
+                    <span class="ml-3 text-xl font-bold">आरोग्य कवच</span>
+                
+     
+        </div>
+    </div>
+
+    <div class="container" id="main-container">
+        <!-- Payment Section -->
+        <div class="right">
+            <h2 style="margin-bottom:20px;">Select Payment Mode</h2>
+
+            <div class="payment-container">
+                <!-- Tabs -->
+                <div class="payment-box-1">
+                    <div id="box1" class="box selected-tab" onclick="showMethod('box1','credit')">Credit/Debit Card</div>
+                    <div id="box2" class="box" onclick="showMethod('box2','net-banking')">Net Banking</div>
+                    <div id="box3" class="box" onclick="showMethod('box3','wallet')">Wallet</div>
+                    <div id="box4" class="box" onclick="showMethod('box4','upi')">UPI</div>
+                    <div id="box5" class="box" onclick="showMethod('box5','cashOnDelivery')">Cash on Delivery</div>
+                </div>
+
+                <!-- Credit Card -->
+                <div id="credit" class="payment-box-2 selected-box">
+                    <div class="pay-head">Add New Card</div>
+                    <p id="payWarning" class="warning"></p>
+                    <input class="payment-box-input" id="cardNumber" maxlength="16" placeholder="Card Number">
+                    <input class="payment-box-input" id="holderName" placeholder="Name on Card">
+                    <div style="display:flex; gap:10px;">
+                        <select class="payment-box-input" id="month" style="flex:1;"><option>Month</option><option>01</option><option>12</option></select>
+                        <input class="payment-box-input" id="cvv" type="password" maxlength="4" placeholder="CVV" style="flex:1;">
+                    </div>
+                    <button onclick="placeOrder('card')" class="btn-payment">PAY SECURELY ₹<span id="payAmount">0</span></button>
+                </div>
+
+                <!-- Net Banking -->
+                <div id="net-banking" class="payment-box-2">
+                    <div class="pay-head">Select Bank</div>
+                    <div class="pay-img-container">
+                        <div class="pay-col" onclick="selectOption(this)"><img src="https://assets.ajio.com/static/peImages/HDFC.png"><div>HDFC</div></div>
+                        <div class="pay-col" onclick="selectOption(this)"><img src="https://assets.ajio.com/static/peImages/SBI.png"><div>SBI</div></div>
+                        <div class="pay-col" onclick="selectOption(this)"><img src="https://assets.ajio.com/static/peImages/ICICI.png"><div>ICICI</div></div>
+                    </div>
+                    <button onclick="placeOrder()" class="btn-payment">PAY SECURELY</button>
+                </div>
+
+                <!-- Wallet -->
+                <div id="wallet" class="payment-box-2">
+                    <div class="pay-head">Select Wallet</div>
+                    <div class="pay-img-container">
+                        <div class="pay-col" onclick="selectOption(this)"><img src="https://assets.ajio.com/static/peImages/Paytm.png"><div>Paytm</div></div>
+                        <div class="pay-col" onclick="selectOption(this)"><img src="https://assets.ajio.com/static/peImages/Phone-pe.png"><div>PhonePe</div></div>
+                    </div>
+                    <button onclick="placeOrder()" class="btn-payment">PAY SECURELY</button>
+                </div>
+
+                <!-- UPI -->
+                <div id="upi" class="payment-box-2">
+                    <div class="pay-head">UPI Payment</div>
+                    <input class="payment-box-input" id="upiInput" placeholder="yourname@upi">
+                    <p id="upiWarning" class="warning"></p>
+                    <button onclick="placeOrder('upi')" class="btn-payment">PAY SECURELY</button>
+                </div>
+
+                <!-- Cash on Delivery -->
+                <div id="cashOnDelivery" class="payment-box-2">
+                    <div class="pay-head">Cash on Delivery</div>
+                    <button onclick="placeOrder()" class="btn-payment">PLACE ORDER</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="left">
+            <div style="background:white; padding:20px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+                <h2 style="color:var(--success);">Order Summary</h2>
+                <div id="summary-bag-total"></div>
+                <div style="color:var(--success); margin:10px 0;">Delivery: FREE</div>
+                <hr>
+                <div id="amount-payable" style="font-size:22px; font-weight:700; color:var(--success);"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showMethod(boxId, methodId) {
+            document.querySelectorAll('.box').forEach(el => el.classList.remove('selected-tab'));
+            document.querySelectorAll('.payment-box-2').forEach(el => el.classList.remove('selected-box'));
+            document.getElementById(boxId).classList.add('selected-tab');
+            document.getElementById(methodId).classList.add('selected-box');
+        }
+
+        function selectOption(el) {
+            el.parentElement.querySelectorAll('.pay-col').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+function placeOrder(method) {
+            // DEBUG: show stored plan amount in console
+            console.log('paymentmode storedPlanAmount:', localStorage.getItem('selectedPlanAmount'));
+
+            // Simple validation
+            if (method === 'card') {
+                if (document.getElementById('cardNumber').value.length < 16) {
+                    document.getElementById('payWarning').textContent = "Enter valid card details";
+                    return;
+                }
+            }
+            if (method === 'upi') {
+                if (!document.getElementById('upiInput').value.includes('@')) {
+                    document.getElementById('upiWarning').textContent = "Enter valid UPI ID";
+                    return;
+                }
+            }
+
+            // Show Success and Redirect to Confirmation
+            Swal.fire({
+                title: 'Payment Successful!',
+                text: 'Redirecting to Order Confirmation...',
+                icon: 'success',
+                timer: 1800,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = "./orderconformation.html";
+            });
+        }
+
+        // Load Order Summary
+document.addEventListener('DOMContentLoaded', () => {
+            // Try to read plan/amount passed from Full1.html
+            const storedPlan = localStorage.getItem('selectedPlan') || null;
+            const storedAmount = parseFloat(localStorage.getItem('selectedPlanAmount') || '');
+
+            const cart = JSON.parse(localStorage.getItem('Allcartproduct')) || [];
+
+let total = 0;
+
+            // If Full1 stored plan amount, use it.
+            if (storedPlan && !Number.isNaN(storedAmount) && storedAmount > 0) {
+                total = storedAmount;
+            } else {
+                cart.forEach(item => {
+                    total += (parseFloat(item.price) || 0) * (parseInt(item.quantity) || 1);
+                });
+            }
+
+            document.getElementById('summary-bag-total').innerHTML = `Items Total: <strong>₹${total.toFixed(2)}</strong>`;
+            document.getElementById('amount-payable').innerHTML = `Total Payable: <strong>₹${total.toFixed(2)}</strong>`;
+            document.getElementById('payAmount').textContent = total.toFixed(2);
+        });
+    </script>
+</body>
+</html>

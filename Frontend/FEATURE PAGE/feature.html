@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - MediCare Insurance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated gradient background */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #4facfe);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Navbar Styles */
+        nav {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            animation: rotate3d 3s ease-in-out infinite;
+        }
+
+        @keyframes rotate3d {
+
+            0%,
+            100% {
+                transform: perspective(400px) rotateY(0deg);
+            }
+
+            50% {
+                transform: perspective(400px) rotateY(180deg);
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: #f093fb;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section with 3D text */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            color: white;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease;
+            background: linear-gradient(135deg, #ffffff, #f093fb, #4facfe);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: textShine 3s ease-in-out infinite, fadeInDown 1s ease;
+        }
+
+        @keyframes textShine {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatOrb 20s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 300px;
+            height: 300px;
+            background: #667eea;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 250px;
+            height: 250px;
+            background: #f093fb;
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        .orb3 {
+            width: 350px;
+            height: 350px;
+            background: #4facfe;
+            top: 50%;
+            left: 50%;
+            animation-delay: 10s;
+        }
+
+        @keyframes floatOrb {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-50px, 50px) scale(0.9);
+            }
+        }
+
+        /* Features Container with Tilt Effect */
+        .features-container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+            top: -10%;
+            left: -10%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-20px) scale(1.03);
+            box-shadow: 0 25px 70px rgba(102, 126, 234, 0.4),
+                0 0 80px rgba(240, 147, 251, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .feature-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            animation: iconFloat 3s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            position: relative;
+        }
+
+        .feature-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: inherit;
+            filter: blur(15px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        @keyframes iconFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+        }
+
+        .feature-card h3 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-benefits {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-benefits li {
+            color: rgba(255, 255, 255, 0.9);
+            padding: 0.7rem 0;
+            padding-left: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .feature-benefits li:hover {
+            transform: translateX(10px);
+            color: #f093fb;
+        }
+
+        .feature-benefits li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 10px rgba(79, 172, 254, 0.4);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+        }
+
+        /* Interactive Feature Showcase */
+        .showcase-section {
+            max-width: 1200px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .showcase-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 3rem;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .showcase-item:hover::after {
+            left: 100%;
+        }
+
+        .showcase-item:hover {
+            transform: scale(1.05);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .showcase-number {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .showcase-title {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .showcase-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            margin: 4rem 0 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: rotateCTA 20s linear infinite;
+        }
+
+        @keyframes rotateCTA {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .cta-section h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section p {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.2rem 3.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 1.5rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 60px rgba(102, 126, 234, 0.6);
+        }
+
+        .cta-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                justify-content: center;
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Scroll progress indicator -->
+    <div class="scroll-indicator" id="scrollProgress"></div>
+
+    <!-- Animated gradient background -->
+    <div class="gradient-bg"></div>
+
+    <!-- Floating orbs -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="../HOME PAGE/Home.html" class="logo">
+                <img src="p.jpg" alt="HealthInsure logo - Shield with heart icon in purple and white" class="h-10" height="100px" width="100px">
+                आरोग्य कवच
+            </a>
+            <div class="nav-links">
+                <a href="../HOME PAGE/Home.html">Home</a>
+                <a href="feature.html">Features</a>
+                <a href="../HOW IT WORK PAGE/working.html">How It Works</a>
+                <a href="http://localhost:8501">Calculator</a>
+                <a href="../PLANS PAGE/plan.html">Plans</a>
+                <a href="/Frontend/Active Plan/Active plan.html" class="hover:text-gray-200 transition">Active Plan</a>
+
+                <a href="../TESTIMONAL PAGE/Review.html">Testimonials</a>
+                <a href="../cotact page/contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Revolutionary Healthcare Features</h1>
+        <p>Experience the future of medical insurance with cutting-edge technology and comprehensive care that adapts to
+            your needs</p>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stat-card">
+            <div class="stat-number">50K+</div>
+            <div class="stat-label">Partner Hospitals</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">98%</div>
+            <div class="stat-label">Claim Approval</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Support Available</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">5M+</div>
+            <div class="stat-label">Happy Members</div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <div class="features-container">
+        <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3>Zero Waiting Period</h3>
+            <p>Instant coverage activation with no waiting periods for most treatments and conditions.</p>
+            <ul class="feature-benefits">
+                <li>Immediate coverage from day one</li>
+                <li>Pre-existing conditions covered</li>
+                <li>Emergency services included</li>
+                <li>No hidden exclusions</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>AI-Powered Claims</h3>
+            <p>Revolutionary AI system processes claims in under 30 minutes with 99.9% accuracy.</p>
+            <ul class="feature-benefits">
+                <li>Smart document verification</li>
+                <li>Instant approval notifications</li>
+                <li>Automated fraud detection</li>
+                <li>Real-time status updates</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🌍</div>
+            <h3>Global Coverage</h3>
+            <p>Seamless healthcare access across 150+ countries with our international network.</p>
+            <ul class="feature-benefits">
+                <li>Worldwide hospital network</li>
+                <li>Medical evacuation included</li>
+                <li>Multi-language support</li>
+                <li>Currency conversion handled</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🧬</div>
+            <h3>Genetic Screening</h3>
+            <p>Advanced DNA analysis to predict and prevent hereditary health conditions.</p>
+            <ul class="feature-benefits">
+                <li>Comprehensive genetic testing</li>
+                <li>Personalized health insights</li>
+                <li>Early disease detection</li>
+                <li>Family health planning</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>Virtual Health Assistant</h3>
+            <p>24/7 AI-powered health companion for instant medical guidance and support.</p>
+            <ul class="feature-benefits">
+                <li>Symptom checker available</li>
+                <li>Medication reminders</li>
+                <li>Health tracking integration</li>
+                <li>Doctor appointment booking</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">💎</div>
+            <h3>Premium Care Network</h3>
+            <p>Exclusive access to world-class specialists and luxury healthcare facilities.</p>
+            <ul class="feature-benefits">
+                <li>Top-rated specialists</li>
+                <li>Private hospital rooms</li>
+                <li>Concierge medical services</li>
+                <li>Priority appointments</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🏃</div>
+            <h3>Wellness Incentives</h3>
+            <p>Earn rewards for healthy lifestyle choices and reduce your premiums.</p>
+            <ul class="feature-benefits">
+                <li>Fitness goal rewards</li>
+                <li>Premium discounts up to 40%</li>
+                <li>Gym membership coverage</li>
+                <li>Nutrition counseling included</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🧘</div>
+            <h3>Mental Wellness Hub</h3>
+            <p>Comprehensive mental health support with certified therapists and counselors.</p>
+            <ul class="feature-benefits">
+                <li>Unlimited therapy sessions</li>
+                <li>Meditation app access</li>
+                <li>Stress management programs</li>
+                <li>Crisis intervention hotline</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🔬</div>
+            <h3>Advanced Diagnostics</h3>
+            <p>State-of-the-art testing facilities with cutting-edge medical technology.</p>
+            <ul class="feature-benefits">
+                <li>AI-enhanced imaging</li>
+                <li>Rapid test results</li>
+                <li>Home sample collection</li>
+                <li>Expert report analysis</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">👶</div>
+            <h3>Maternity Plus</h3>
+            <p>Complete pregnancy care from conception to postpartum with expert support.</p>
+            <ul class="feature-benefits">
+                <li>Prenatal care covered</li>
+                <li>Delivery expenses included</li>
+                <li>Newborn coverage immediate</li>
+                <li>Lactation consultant access</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🚑</div>
+            <h3>Emergency Response</h3>
+            <p>Rapid emergency medical services with air ambulance and ICU coverage.</p>
+            <ul class="feature-benefits">
+                <li>Air ambulance included</li>
+                <li>ICU coverage unlimited</li>
+                <li>Emergency hotline active</li>
+                <li>GPS-tracked ambulances</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">💊</div>
+            <h3>Medicine Vault</h3>
+            <p>Smart medication management with home delivery and refill reminders.</p>
+            <ul class="feature-benefits">
+                <li>Prescription auto-refill</li>
+                <li>Free home delivery</li>
+                <li>Medicine interaction alerts</li>
+                <li>Generic alternatives suggested</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Interactive Showcase Section -->
+    <section class="showcase-section">
+        <div class="hero">
+            <h1 style="font-size: 3rem;">Why Members Love Us</h1>
+        </div>
+        <div class="showcase-grid">
+            <div class="showcase-item">
+                <div class="showcase-number">01</div>
+                <div class="showcase-title">Smart Technology</div>
+                <div class="showcase-desc">AI-powered platform learns your health patterns and provides personalized
+                    recommendations for optimal wellness.</div>
+            </div>
+            <div class="showcase-item">
+                <div class="showcase-number">02</div>
+                <div class="showcase-title">Transparent Pricing</div>
+                <div class="showcase-desc">No hidden fees, no surprises. See exactly what you're paying for with our
+                    crystal-clear pricing structure.</div>
+            </div>
+            <div class="showcase-item">
+                <div class="showcase-number">03</div>
+                <div class="showcase-title">Family First</div>
+                <div class="showcase-desc">Comprehensive coverage for your entire family with special benefits for
+                    children and senior citizens.</div>
+            </div>
+            <div class="showcase-item">
+                <div class="showcase-number">04</div>
+                <div class="showcase-title">Instant Support</div>
+                <div class="showcase-desc">Connect with healthcare professionals in seconds through our 24/7
+                    telemedicine platform.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Transform Your Healthcare Experience</h2>
+        <p style="font-size: 1.3rem; margin-bottom: 1rem;">Join millions who trust MediCare for comprehensive,
+            affordable, and innovative health coverage</p>
+        <button class="cta-button" onclick="window.location.href='/Frontend/PLANS PAGE/plan.html'">
+            <span>Explore Our Plans →</span>
+        </button>
+    </section>
+
+    <script>
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Apply initial state and observe all cards
+        document.querySelectorAll('.feature-card, .stat-card, .showcase-item').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(card);
+        });
+
+        // 3D tilt effect for feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-20px) scale(1.03)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
+            });
+        });
+
+        // Ripple effect on click
+        document.querySelectorAll('.feature-card, .stat-card').forEach(card => {
+            card.addEventListener('click', function (e) {
+                const ripple = document.createElement('div');
+                const rect = this.getBoundingClientRect();
+
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.5)';
+                ripple.style.width = ripple.style.height = '20px';
+                ripple.style.left = (e.clientX - rect.left - 10) + 'px';
+                ripple.style.top = (e.clientY - rect.top - 10) + 'px';
+                ripple.style.pointerEvents = 'none';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.opacity = '1';
+                ripple.style.transition = 'transform 0.6s ease-out, opacity 0.6s ease-out';
+
+                this.style.position = 'relative';
+                this.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.style.transform = 'scale(30)';
+                    ripple.style.opacity = '0';
+                }, 10);
+
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Parallax effect for orbs
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) / 50;
+            const moveY = (e.clientY - window.innerHeight / 2) / 50;
+
+            document.querySelectorAll('.orb').forEach((orb, index) => {
+                const speed = (index + 1) * 0.5;
+                orb.style.transform = `translate(${moveX * speed}px, ${moveY * speed}px)`;
+            });
+        });
+
+        // Counter animation for stats
+        const animateCounter = (element, target, duration) => {
+            let current = 0;
+            const increment = target / (duration / 16);
+            const isPercentage = element.textContent.includes('%');
+            const hasPlus = element.textContent.includes('+');
+            const suffix = isPercentage ? '%' : (hasPlus ? '+' : '');
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + suffix;
+                }
+            }, 16);
+        };
+
+        // Observe stats and trigger counter animation
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const number = entry.target.querySelector('.stat-number');
+                    const text = number.textContent;
+                    const value = parseInt(text.replace(/\D/g, ''));
+
+                    if (text.includes('K')) {
+                        animateCounter(number, value, 2000);
+                        setTimeout(() => {
+                            number.textContent = value + 'K+';
+                        }, 2000);
+                    } else if (text.includes('M')) {
+                        animateCounter(number, value, 2000);
+                        setTimeout(() => {
+                            number.textContent = value + 'M+';
+                        }, 2000);
+                    } else {
+                        animateCounter(number, value, 2000);
+                    }
+
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statsObserver.observe(card);
+        });
+
+        // Particle trail on mouse move
+        let particles = [];
+        const maxParticles = 20;
+
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.85) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.width = Math.random() * 5 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = `rgba(${Math.random() * 100 + 155}, ${Math.random() * 100 + 155}, 255, 0.6)`;
+                particle.style.borderRadius = '50%';
+                particle.style.left = e.clientX + 'px';
+                particle.style.top = e.clientY + 'px';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '9999';
+                particle.style.transition = 'all 1s ease-out';
+
+                document.body.appendChild(particle);
+                particles.push(particle);
+
+                setTimeout(() => {
+                    particle.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 + 50}px) scale(0)`;
+                    particle.style.opacity = '0';
+                }, 10);
+
+                setTimeout(() => {
+                    particle.remove();
+                    particles = particles.filter(p => p !== particle);
+                }, 1000);
+
+                if (particles.length > maxParticles) {
+                    const oldParticle = particles.shift();
+                    oldParticle.remove();
+                }
+            }
+        });
+
+        // Add hover sound effect (visual feedback)
+        document.querySelectorAll('.feature-card, .cta-button').forEach(element => {
+            element.addEventListener('mouseenter', function () {
+                this.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            });
+        });
+
+        // Easter egg: Konami code
+        let konamiCode = [];
+        const konamiPattern = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.key);
+            konamiCode = konamiCode.slice(-10);
+
+            if (konamiCode.join(',') === konamiPattern.join(',')) {
+                document.body.style.animation = 'rainbow 2s linear infinite';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 5000);
+            }
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rainbow {
+                0% { filter: hue-rotate(0deg); }
+                100% { filter: hue-rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthInsight | Medical Insurance Cost Prediction Blog</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(255, 255, 255, 1) 100%);
+            padding: 4rem 5% 6rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            color: var(--dark);
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: -3rem auto 5rem;
+            padding: 0 5%;
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        /* Blog Card */
+        .blog-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .blog-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .blog-card:hover .blog-image img {
+            transform: scale(1.05);
+        }
+
+        .blog-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .blog-content p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-size: 0.9375rem;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: var(--transition);
+        }
+
+        .read-more:hover {
+            gap: 0.5rem;
+        }
+
+        /* Prediction Calculator Section */
+        .calculator-section {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 3rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .results-card {
+            text-align: center;
+            padding: 2rem;
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+            margin-top: 2rem;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .results-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .prediction-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--success);
+            margin: 1rem 0;
+        }
+
+        .disclaimer {
+            font-size: 0.875rem;
+            color: var(--gray);
+            margin-top: 2rem;
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .newsletter h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.375rem 0 0 0.375rem;
+            font-size: 1rem;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+        }
+
+        .newsletter-btn {
+            background-color: var(--dark);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 0.375rem 0.375rem 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-btn:hover {
+            background-color: #334155;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                margin-top: 1rem;
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 3rem 5%;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .calculator-section,
+            .newsletter {
+                padding: 2rem;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-input {
+                border-radius: 0.375rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .newsletter-btn {
+                border-radius: 0.375rem;
+                 padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="p.jpg" class="logo">
+                <img src="p.jpg" alt="Logo" height="80px" width="80px">
+                <span>आरोग्य कवच</span>
+            </a>
+            <div class="nav-links">
+                  <a href="/Frontend/FEATURE PAGE/feature.html" class="hover:text-gray-200 transition">Features</a>
+                    <a href="/Frontend/HOW IT WORK PAGE/working.html" class="hover:text-gray-200 transition">How It Works</a>
+                    <a href="/Frontend/Calculator page/p.html" class="hover:text-gray-200 transition">Calculator</a>
+                    <a href="/Frontend/PLANS PAGE/plan.html" class="hover:text-gray-200 transition">Plans</a>
+                    <a href="/Frontend/TESTIMONAL PAGE/Review.html" class="hover:text-gray-200 transition">Testimonials</a>
+                    <a href="/Frontend/cotact page/contact.html" class="hover:text-gray-200 transition">Contact</a>
+                   
+            </div>
+            
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Understanding Medical Insurance Costs</h1>
+        <p>Get insights into healthcare expenses and learn how to predict your medical insurance costs with our expert analysis and tools.</p>
+    </section>
+
+    <main class="container">
+        <section id="blog" class="blog-grid">
+            <!-- Featured Blog Post -->
+            <article class="blog-card animated">
+                <div class="blog-image">
+                    <img src="blog1.png" alt="Healthcare professional analyzing medical insurance documents on a tablet with charts in background">
+                    <span class="blog-category">Featured</span>
+                </div>
+                <div class="blog-content">
+                    <h3>7 Key Factors That Affect Your Medical Insurance Premiums</h3>
+                    <p>Discover the major variables that insurers consider when calculating your health insurance costs and how you can potentially reduce your premiums.</p>
+                    <div class="blog-meta">
+                        <span>July 15, 2023</span>
+                        <span>8 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+
+            <!-- Regular Blog Posts -->
+            <article class="blog-card animated delay-1">
+                <div class="blog-image">
+                    <img src="blog2.png" alt="Cost comparison chart showing different health insurance plans side by side" height="100%" width="100%">
+                </div>
+                <div class="blog-content">
+                    <h3>Comparing Health Insurance Plans: What You Need to Know</h3>
+                    <p>A comprehensive guide to understanding different types of health insurance plans and how to choose the right one for your needs.</p>
+                    <div class="blog-meta">
+                        <span>June 28, 2023</span>
+                        <span>6 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+
+            <article class="blog-card animated delay-2">
+                <div class="blog-image">
+                    <img src="blog3.png" alt="Senior couple reviewing medical bills and insurance paperwork">
+                </div>
+                <div class="blog-content">
+                    <h3>How Age Impacts Your Health Insurance Costs</h3>
+                    <p>An in-depth analysis of why insurance premiums increase with age and strategies to manage these rising costs.</p>
+                    <div class="blog-meta">
+                        <span>June 12, 2023</span>
+                        <span>10 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+
+            <article class="blog-card animated delay-3">
+                <div class="blog-image">
+                    <img src="blog4.png" alt="Person using a health insurance cost calculator on their smartphone">
+                </div>
+                <div class="blog-content">
+                    <h3>Machine Learning in Insurance Cost Prediction</h3>
+                    <p>How artificial intelligence is revolutionizing the way insurance companies calculate premiums and predict medical costs.</p>
+                    <div class="blog-meta">
+                        <span>May 29, 2023</span>
+                        <span>12 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+
+            <article class="blog-card animated delay-1">
+                <div class="blog-image">
+                    <img src="blog5.1.png" alt="Family discussing health insurance options around a table" height="800px" width="800px">
+                </div>
+                <div class="blog-content">
+                    <h3>Family Health Insurance: Costs and Considerations</h3>
+                    <p>Everything you need to know about insuring your entire family and how to get the best value.</p>
+                    <div class="blog-meta">
+                        <span>May 15, 2023</span>
+                        <span>7 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+
+            <article class="blog-card animated delay-2">
+                <div class="blog-image">
+                    <img src="blog6.jpg" alt="Infographic showing regional differences in healthcare costs across the country">
+                </div>
+                <div class="blog-content">
+                    <h3>Regional Variations in Healthcare Costs</h3>
+                    <p>Why medical insurance costs vary dramatically by location and what this means for consumers.</p>
+                    <div class="blog-meta">
+                        <span>April 30, 2023</span>
+                        <span>9 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read more →</a>
+                </div>
+            </article>
+        </section>
+<!-- Footer-->
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>आरोग्य कवच</h3>
+                <p>Providing data-driven insights to help you navigate healthcare costs and insurance options.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="/Frontend/Calculator page/p.html">Calculator</a></li>
+                    <li><a href="/Frontend/About page/About.html">About Us</a></li>
+                    <li><a href="/Frontend/cotact page/contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Healthcare Glossary</a></li>
+                    <li><a href="#">Cost Comparison Tool</a></li>
+                    <li><a href="/Frontend/INSURANCE GUIDE/Insurance Guide.html">Insurance Guide</a></li>
+                    <li><a href="/Frontend/FAQ PAGE/FAQ.HTML">FAQs</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 HealthInsight. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Insurance Cost Calculator Logic
+        document.getElementById('insurance-calculator').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<span class="loader"></span> Calculating...';
+            submitBtn.disabled = true;
+            
+            // Get form values
+            const age = parseInt(document.getElementById('age').value);
+            const bmi = parseFloat(document.getElementById('bmi').value);
+            const children = parseInt(document.getElementById('children').value);
+            const smoker = parseInt(document.getElementById('smoker').value);
+            const region = document.getElementById('region').value;
+            
+            // Simple prediction model (in a real app, this would call an API)
+            setTimeout(() => {
+                let baseCost = 5000;
+                
+                // Age adjustment
+                if (age < 30) baseCost *= 1.1;
+                else if (age < 40) baseCost *= 1.3;
+                else if (age < 50) baseCost *= 1.6;
+                else if (age < 60) baseCost *= 2.0;
+                else baseCost *= 3.0;
+                
+                // BMI adjustment
+                if (bmi < 18.5) baseCost *= 1.2;
+                else if (bmi >= 25 && bmi < 30) baseCost *= 1.1;
+                else if (bmi >= 30) baseCost *= 1.4;
+                
+                // Children adjustment
+                baseCost += (children * 1000);
+                
+                // Smoker adjustment
+                if (smoker) baseCost *= 2.5;
+                
+                // Region adjustment
+                const regionFactors = {
+                    'northeast': 1.2,
+                    'northwest': 1.0,
+                    'southeast': 1.1,
+                    'southwest': 1.05
+                };
+                baseCost *= regionFactors[region];
+                
+                // Random variance (+/- 10%)
+                const variance = (Math.random() * 0.2) + 0.9;
+                const finalCost = Math.round(baseCost * variance);
+                
+                // Display results
+                document.getElementById('prediction').textContent = '$' + finalCost.toLocaleString();
+                document.getElementById('results').style.display = 'block';
+                
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                // Scroll to results
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        });
+        
+        // Newsletter form submission
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            alert('Thank you for subscribing with ' + email + '! You\'ll receive our next newsletter soon.');
+            this.reset();
+        });
+        
+        // Animation for blog cards when they come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        document.querySelectorAll('.blog-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

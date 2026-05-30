@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedInsureCost - Terms of Service</title>
+    <style>
+        :root {
+            --primary: #1a6ed8;
+            --secondary: #2d7d46;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --danger: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .content-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+        
+        h2 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.4rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        h3 {
+            color: var(--primary);
+            margin: 1rem 0 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background-color: rgba(26, 110, 216, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem 0;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .accept-section {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .accept-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .accept-btn:hover {
+            background-color: #236636;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+            }
+            
+            .content-card {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="p.jpg" alt="MedInsureCost logo - blue square with white MC initials">
+                <h1>आरोग्य कवच</h1>
+            </div>
+            <div class="last-updated">
+                Last Updated: <span id="current-date"></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <h1 class="page-title">Terms of Service</h1>
+        
+        <div class="content-card">
+            <p>Welcome to MedInsureCost ("we", "our", or "us"). These Terms of Service ("Terms") govern your access to and use of our medical insurance cost prediction services ("Services"). By accessing or using our Services, you agree to be bound by these Terms.</p>
+            
+            <h2>1. Description of Services</h2>
+            <p>MedInsureCost provides predictive analytics services that estimate potential medical insurance costs based on:</p>
+            <ul>
+                <li>User-provided health and demographic information</li>
+                <li>Historical insurance claim data</li>
+                <li>Medical cost trends and regional factors</li>
+                <li>Insurance plan details</li>
+            </ul>
+            <p class="highlight">Our predictions are estimates only and not guarantees of actual insurance costs.</p>
+            
+            <h2>2. Eligibility</h2>
+            <p>To use our Services, you must:</p>
+            <ul>
+                <li>Be at least 18 years of age</li>
+                <li>Have the legal capacity to enter into these Terms</li>
+                <li>Agree to provide accurate information</li>
+                <li>Use the Services only for personal, non-commercial purposes</li>
+            </ul>
+            
+            <h2>3. User Responsibilities</h2>
+            <h3>3.1 Accuracy of Information</h3>
+            <p>You agree to provide complete, accurate, and current information when using our Services. Inaccurate information may result in unreliable cost predictions.</p>
+            
+            <h3>3.2 Prohibited Activities</h3>
+            <p>You may not:</p>
+            <ul>
+                <li>Use the Services for any unlawful purpose</li>
+                <li>Attempt to reverse engineer our algorithms</li>
+                <li>Scrape or collect data from our Services</li>
+                <li>Misrepresent your identity or information</li>
+                <li>Distribute our predictions as professional medical advice</li>
+            </ul>
+            
+            <h2>4. Privacy and Data Use</h2>
+            <p>Your privacy is important to us. Our <a href="#privacy">Privacy Policy</a> explains how we collect, use, and protect your information. By using our Services, you consent to such collection and use.</p>
+            
+            <h3>4.1 Health Information</h3>
+            <p>Health information provided will be:</p>
+            <ul>
+                <li>Used solely for generating cost predictions</li>
+                <li>Securely stored following HIPAA guidelines where applicable</li>
+                <li>Anonymized when used for improving our models</li>
+            </ul>
+            
+            <h2>5. Limitations of Service</h2>
+            <h3>5.1 Not Medical Advice</h3>
+            <p>Our Services provide cost estimates only and do not:</p>
+            <ul>
+                <li>Constitute medical advice</li>
+                <li>Recommend specific treatments</li>
+                <li>Guarantee insurance coverage</li>
+            </ul>
+            
+            <h3>5.2 Prediction Accuracy</h3>
+            <p>While we strive for accuracy:</p>
+            <ul>
+                <li>Actual insurance costs may vary</li>
+                <li>We are not liable for discrepancies</li>
+                <li>Consult insurance providers for exact quotes</li>
+            </ul>
+            
+            <h2>6. Intellectual Property</h2>
+            <p>All content, algorithms, and software powering our Services are our exclusive property. You may not:</p>
+            <ul>
+                <li>Reproduce, modify, or distribute our content</li>
+                <li>Use our branding without permission</li>
+                <li>Create derivative works based on our Services</li>
+            </ul>
+            
+            <h2>7. Term and Termination</h2>
+            <p>We may terminate or suspend your access immediately if you:</p>
+            <ul>
+                <li>Violate these Terms</li>
+                <li>Engage in fraudulent activity</li>
+                <li>Misuse our Services</li>
+            </ul>
+            
+            <h2>8. Disclaimers and Limitation of Liability</h2>
+            <h3>8.1 Service Availability</h3>
+            <p>We do not guarantee uninterrupted service and are not liable for:</p>
+            <ul>
+                <li>Temporary unavailability</li>
+                <li>Technical difficulties</li>
+                <li>Third-party service interruptions</li>
+            </ul>
+            
+            <h3>8.2 No Warranties</h3>
+            <p>Our Services are provided "as is" without warranties of:</p>
+            <ul>
+                <li>Merchantability</li>
+                <li>Fitness for a particular purpose</li>
+                <li>Non-infringement</li>
+            </ul>
+            
+            <h2>9. Changes to Terms</h2>
+            <p>We may modify these Terms at any time. Continued use after changes constitutes acceptance. We will notify users of significant changes via email or website notice.</p>
+            
+            <h2 id="privacy">10. Privacy Policy</h2>
+            <p>Our Privacy Policy governs our collection and use of your information, including:</p>
+            <ul>
+                <li>What data we collect</li>
+                <li>How we use data</li>
+                <li>With whom we share data</li>
+                <li>Your rights regarding your data</li>
+            </ul>
+            <p>The full Privacy Policy is available at <a href="/Frontend/TERM OF SERVICES/termofservices.html">आरोग्य कवच.com/privacy</a>.</p>
+            
+            <h2>11. Governing Law</h2>
+            <p>These Terms shall be governed by the laws of the state of Delaware, without regard to conflict of law principles.</p>
+            
+            <div class="accept-section">
+                <button class="accept-btn" id="accept-button">I Accept These Terms</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© <span id="copyright-year"></span> आरोग्य कवच All rights reserved.</p>
+        <p>Contact: legal@आरोग्य कवच.com |+91 9348698773</p>
+    </div>
+    
+    <div class="scroll-top" id="scroll-top" title="Scroll to top">↑</div>
+    
+    <script>
+        // Set current date
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        
+        // Set copyright year
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+        
+        // Accept button functionality
+        document.getElementById('accept-button').addEventListener('click', function() {
+            alert('Thank you for accepting our Terms of Service. You may now proceed to use our services.');
+            // In a real implementation, you would likely redirect or enable services
+        });
+        
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scroll-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>

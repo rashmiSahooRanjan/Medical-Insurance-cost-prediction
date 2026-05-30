@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced HealthInsure - Advanced Insurance Cost Prediction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Gradient Background */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Glass Card Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+        }
+
+        /* Pulse Animation */
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Dark Mode Toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #667eea;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4caf50;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.hidden {
+            display: none;
+        }
+
+        .profile-card-section {
+            padding: 24px 0;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(12px);
+            padding: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .profile-card .profile-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: white;
+        }
+
+        .profile-card .profile-details h2 {
+            font-size: 1.75rem;
+            margin-bottom: 4px;
+        }
+
+        .profile-card .profile-details p {
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+
+        .profile-card .profile-meta {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            border-radius: 14px;
+            padding: 20px;
+            min-width: 240px;
+            text-align: center;
+        }
+
+        .profile-card .profile-meta span {
+            display: block;
+            margin-top: 10px;
+            color: #cbd5e1;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Chatbot Styles */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            z-index: 9998;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .chat-button.active {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 400px;
+            max-width: calc(100vw - 60px);
+            height: 600px;
+            max-height: calc(100vh - 150px);
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 9999;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .chat-container.show {
+            display: flex;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bot-message {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .user-message {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+        }
+
+        .bot-message .message-bubble {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-message .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .input-group {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group input,
+        .input-group select {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .chat-input-area {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            opacity: 0.9;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 10px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .policy-card {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .policy-card h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .policy-card p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                right: 15px;
+                bottom: 90px;
+                width: calc(100vw - 30px);
+            }
+
+            .chat-button {
+                right: 15px;
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="p.jpg" alt="HealthInsure logo - Shield with heart icon in purple and white" class="h-10">
+                    <span class="ml-3 text-xl font-bold">आरोग्य कवच</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="/Frontend/FEATURE PAGE/feature.html" class="hover:text-gray-200 transition">Features</a>
+                    <a href="/Frontend/HOW IT WORK PAGE/working.html" class="hover:text-gray-200 transition">How It Works</a>
+                    <a href="http://localhost:8501" class="hover:text-gray-200 transition">Calculator</a>
+                    <a href="/Frontend/PLANS PAGE/plan.html" class="hover:text-gray-200 transition">Plans</a>
+                    <a href="/Frontend/Active Plan/Active plan.html" class="hover:text-gray-200 transition">Active Plan</a>
+                    <a href="/Frontend/TESTIMONAL PAGE/Review.html" class="hover:text-gray-200 transition">Testimonials</a>
+                    <a href="#contactSection" class="hover:text-gray-200 transition">Contact</a>
+                    <a id="navAuthLink" href="#authSection" class="hover:text-gray-200 transition">Sign Up</a>
+                </div>
+                <button class="md:hidden focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div class="toast hidden" id="toast">
+        <div class="flex items-center">
+            <span class="mr-2"><i class="fas fa-check-circle"></i></span>
+            <span id="toastMessage">Your prediction has been calculated!</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">Advanced Insurance Cost Prediction</h1>
+                <p class="text-xl mb-8">Our AI analyzes 50+ factors to provide the most accurate medical insurance cost estimates with personalized savings recommendations.</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="http://localhost:8501" class="bg-white text-indigo-700 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300 shadow-lg pulse-animation inline-block">Calculate Now</a>
+                    <a href="/Frontend/HOW IT WORK PAGE/working.html" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-indigo-700 transition duration-300 inline-flex items-center">
+                        <i class="fas fa-play-circle mr-2"></i> Watch Demo
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2">
+                <div class="relative">
+                            <img src="/Frontend/HOME PAGE/ph.avif">
+                    <div class="absolute -bottom-6 -right-6 bg-white rounded-lg shadow-lg p-4">
+                        <div class="flex">
+                            <div class="bg-indigo-100 rounded-lg p-3 mr-3">
+                                <i class="fas fa-chart-line text-indigo-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Save your Life</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container mx-auto px-6 mt-16 text-center">
+            <h3 class="text-2xl font-bold text-white mb-6">Trusted Results Backed By Data</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="glass-card p-4">
+                    <div class="text-white text-3xl font-bold mb-2">95%</div>
+                    <div class="text-gray-200">Accuracy Rate</div>
+                </div>
+                <div class="glass-card p-4">
+                    <div class="text-white text-3xl font-bold mb-2">750K+</div>
+                    <div class="text-gray-200">Predictions Made</div>
+                </div>
+                <div class="glass-card p-4">
+                    <div class="text-white text-3xl font-bold mb-2">1Lakh+</div>
+                    <div class="text-gray-200">Average Annual Savings</div>
+                </div>
+                <div class="glass-card p-4">
+                    <div class="text-white text-3xl font-bold mb-2">4.9★</div>
+                    <div class="text-gray-200">Customer Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-20 bg-white" id="contactSection">
+        <div class="container mx-auto px-6">
+            <div class="grid gap-10 lg:grid-cols-2 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-slate-900 mb-4">Contact our support team</h2>
+                    <p class="text-slate-600 leading-relaxed mb-6">Need help with your account or policy? Reach out to our expert support team and get a fast response.</p>
+                    <p class="text-slate-500">Phone: <strong>+91 98765 43210</strong></p>
+                    <p class="text-slate-500">Email: <strong>support@healthinsurepro.com</strong></p>
+                </div>
+                <div class="rounded-3xl bg-gradient-to-r from-indigo-600 to-purple-600 p-10 text-white shadow-2xl">
+                    <h3 class="text-3xl font-semibold mb-4">Get personalized help</h3>
+                    <p class="mb-6">Whether you want a quote, need help with claims, or want to learn more about our plans, we are here for you.</p>
+                    <a href="/Frontend/cotact page/contact.html" class="inline-block bg-white text-indigo-700 px-6 py-3 rounded-full font-semibold hover:bg-slate-100 transition">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auth Section -->
+    <section class="py-20 bg-slate-900 text-white" id="authSection">
+        <div class="container mx-auto px-6">
+            <div id="authPanel" class="rounded-3xl bg-white p-10 shadow-2xl text-slate-900">
+                <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+                    <h2 class="text-3xl font-bold" id="authTitle">Create your account</h2>
+                    <div class="flex gap-3">
+                        <button id="showSignInBtn" class="px-5 py-3 rounded-full border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition">Sign In</button>
+                        <button id="showSignUpBtn" class="px-5 py-3 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition">Sign Up</button>
+                    </div>
+                </div>
+                <form id="homeSignUpForm" onsubmit="return false;">
+                    <div class="grid gap-5 sm:grid-cols-2">
+                        <div class="input-group">
+                            <label for="homeSignupName">Full Name</label>
+                            <input type="text" id="homeSignupName" placeholder="Enter full name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="homeSignupEmail">Email Address</label>
+                            <input type="email" id="homeSignupEmail" placeholder="Enter email" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="homeSignupPassword">Password</label>
+                            <input type="password" id="homeSignupPassword" placeholder="Create a password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="homeSignupConfirmPassword">Confirm Password</label>
+                            <input type="password" id="homeSignupConfirmPassword" placeholder="Confirm password" required>
+                        </div>
+                    </div>
+                    <button id="homeSignupBtn" class="mt-8 w-full bg-indigo-600 text-white px-6 py-4 rounded-full font-semibold hover:bg-indigo-700 transition">Create Account</button>
+                </form>
+
+                <form id="homeSignInForm" onsubmit="return false;" style="display: none;">
+                    <div class="grid gap-5 sm:grid-cols-2">
+                        <div class="input-group">
+                            <label for="homeSigninEmail">Email Address</label>
+                            <input type="email" id="homeSigninEmail" placeholder="Enter email" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="homeSigninPassword">Password</label>
+                            <input type="password" id="homeSigninPassword" placeholder="Enter password" required>
+                        </div>
+                    </div>
+                    <button id="homeSigninBtn" class="mt-8 w-full bg-slate-900 text-white px-6 py-4 rounded-full font-semibold hover:bg-slate-800 transition">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Profile Section -->
+    <section class="py-20 bg-gradient-to-r from-indigo-600 to-purple-600 text-white" id="myProfileSection" style="display: none;">
+        <div class="container mx-auto px-6">
+            <div class="rounded-3xl bg-white/10 border border-white/20 backdrop-blur-sm p-10 shadow-2xl max-w-4xl mx-auto">
+                <div class="text-center mb-8">
+                    <p class="text-sm uppercase tracking-[0.24em] text-cyan-100/80">My Profile</p>
+                    <h2 class="text-4xl font-bold mt-4" id="profileHeading">Welcome back!</h2>
+                    <p class="mt-3 text-slate-200 text-lg" id="profileText">Your saved profile is ready, and your personalized insurance dashboard is waiting.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                    <div class="rounded-2xl bg-white/10 border border-white/10 p-6 text-center">
+                        <div class="text-5xl mb-3"><i class="fas fa-user-circle"></i></div>
+                        <div class="text-xl font-semibold" id="profileName">Valued User</div>
+                        <div class="mt-2 text-slate-200 text-sm" id="profileEmail">user@example.com</div>
+                    </div>
+
+                    <div class="rounded-2xl bg-white/10 border border-white/10 p-6 flex flex-col justify-center items-center">
+                        <div class="text-sm text-cyan-100/80 mb-2">Profile Status</div>
+                        <div class="text-2xl font-bold">Active</div>
+                        <div class="text-xs text-slate-200 mt-2">Account Verified</div>
+                    </div>
+
+                    <div class="rounded-2xl bg-white/10 border border-white/10 p-6 flex flex-col justify-center">
+                        <a href="MyProfile.html" class="w-full text-center bg-white text-slate-900 px-6 py-3 rounded-full font-semibold hover:bg-slate-100 transition mb-3">View Full Profile</a>
+                        <button id="homeLogoutBtn" class="w-full bg-red-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-600 transition mb-3">Logout</button>
+                        <a href="#contactSection" class="w-full text-center bg-white/20 border border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white/30 transition">Contact Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div style="width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <img src="p.jpg" alt="HealthInsure logo - Shield with heart icon in purple and white" class="h-10" height="100px" width="100px">
+
+                        </div>
+                        <span class="ml-3 text-xl font-bold">आरोग्य कवच</span>
+                    </div>
+                    <p class="text-gray-400">Advanced AI for smarter insurance decisions. Save money with confidence.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/Frontend/About page/About.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#careers" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="#press" class="text-gray-400 hover:text-white transition">Press</a></li>
+                        <li><a href="/Frontend/Blog Page/Blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/Frontend/INSURANCE GUIDE/Insurance Guide.html" class="text-gray-400 hover:text-white transition">Insurance Guide</a></li>
+                        <li><a href="http://localhost:8501" class="text-gray-400 hover:text-white transition">Health Calculator</a></li>
+                        <li><a href="/Frontend/FAQ PAGE/FAQ.HTML" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+                        <li><a href="/Frontend/cotact page/contact.html" class="text-gray-400 hover:text-white transition">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <p class="text-gray-400">Subscribe to our newsletter</p>
+                    <div class="mt-2 flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg text-gray-800 w-full focus:outline-none">
+                        <button class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-r-lg transition"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2026 HealthInsure Pro. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="/Frontend/Privacypolice page/Privacypolicy.html" class="text-gray-400 hover:text-white transition text-sm">Privacy Policy</a>
+                    <a href="/Frontend/TERM OF SERVICES/termofservices.html" class="text-gray-400 hover:text-white transition text-sm">Terms of Service</a>
+                    <a href="#cookies" class="text-gray-400 hover:text-white transition text-sm">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Button -->
+    <button class="chat-button" id="chatButton">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- Chatbot Container -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <h2>🛡️ Insurance Assistant</h2>
+            <p>Your 24/7 Insurance Helper</p>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+            <button class="send-btn" id="sendBtn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let conversationState = 'main';
+        let userContext = {
+            age: null,
+            healthCondition: null,
+            budget: null,
+            claimNumber: null
+        };
+
+        const insurancePlans = [
+            {
+                name: "Basic Shield",
+                coverage: "₹3 Lakhs",
+                premium: "₹3,500/year",
+                ageRange: "18-45",
+                features: "Basic hospitalization, Day-care procedures"
+            },
+            {
+                name: "Family Protect Plus",
+                coverage: "₹5 Lakhs",
+                premium: "₹7,500/year",
+                ageRange: "25-60",
+                features: "Family floater, Pre & post hospitalization, Maternity"
+            },
+            {
+                name: "Premium Care",
+                coverage: "₹10 Lakhs",
+                premium: "₹12,000/year",
+                ageRange: "18-65",
+                features: "No room rent limit, Ambulance, Critical illness"
+            },
+            {
+                name: "Senior Citizen Shield",
+                coverage: "₹7 Lakhs",
+                premium: "₹18,000/year",
+                ageRange: "60-80",
+                features: "Pre-existing coverage, Daily cash allowance"
+            }
+        ];
+
+        const claimDocuments = [
+            "✔ Duly filled claim form",
+            "✔ Original hospital bills and receipts",
+            "✔ Discharge summary from hospital",
+            "✔ Diagnostic reports and prescriptions",
+            "✔ Photo ID proof",
+            "✔ Policy copy",
+            "✔ Bank account details (cancelled cheque)"
+        ];
+
+        // DOM Elements
+        const chatButton = document.getElementById('chatButton');
+        const chatContainer = document.getElementById('chatContainer');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        const navAuthLink = document.getElementById('navAuthLink');
+        const authPanel = document.getElementById('authPanel');
+        const profilePanel = document.getElementById('myProfileSection');
+        const authTitle = document.getElementById('authTitle');
+        const showSignInBtn = document.getElementById('showSignInBtn');
+        const showSignUpBtn = document.getElementById('showSignUpBtn');
+        const homeSignUpForm = document.getElementById('homeSignUpForm');
+        const homeSignInForm = document.getElementById('homeSignInForm');
+        const homeSignupBtn = document.getElementById('homeSignupBtn');
+        const homeSigninBtn = document.getElementById('homeSigninBtn');
+        const homeLogoutBtn = document.getElementById('homeLogoutBtn');
+        const profileHeading = document.getElementById('profileHeading');
+        const profileText = document.getElementById('profileText');
+        const profileName = document.getElementById('profileName');
+        const profileEmail = document.getElementById('profileEmail');
+
+        function getHealthInsureUser() {
+            return JSON.parse(localStorage.getItem('HealthInsureUser') || 'null');
+        }
+
+        function updateNavAuthLink() {
+            const user = getHealthInsureUser();
+            if (user && user.loggedIn) {
+                navAuthLink.textContent = 'My Profile';
+                navAuthLink.href = 'MyProfile.html';
+            } else {
+                navAuthLink.textContent = 'Sign Up';
+                navAuthLink.href = '#authSection';
+            }
+        }
+
+        function showAuthSection(section) {
+            if (section === 'signin') {
+                authTitle.textContent = 'Sign In to your account';
+                homeSignUpForm.style.display = 'none';
+                homeSignInForm.style.display = 'grid';
+                showSignInBtn.classList.add('bg-indigo-600', 'text-white');
+                showSignInBtn.classList.remove('border', 'border-indigo-600', 'text-indigo-600');
+                showSignUpBtn.classList.remove('bg-indigo-600', 'text-white');
+                showSignUpBtn.classList.add('border', 'border-indigo-600', 'text-indigo-600');
+            } else {
+                authTitle.textContent = 'Create your account';
+                homeSignUpForm.style.display = 'grid';
+                homeSignInForm.style.display = 'none';
+                showSignUpBtn.classList.add('bg-indigo-600', 'text-white');
+                showSignUpBtn.classList.remove('border', 'border-indigo-600', 'text-indigo-600');
+                showSignInBtn.classList.remove('bg-indigo-600', 'text-white');
+                showSignInBtn.classList.add('border', 'border-indigo-600', 'text-indigo-600');
+            }
+        }
+
+        function initHomeAuthState() {
+            updateNavAuthLink();
+            // Always show auth form on page load, never auto-show profile
+            profilePanel.style.display = 'none';
+            authPanel.style.display = 'block';
+            showAuthSection('signup');
+            if (window.location.hash === '#authSection') {
+                document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function showProfileAfterAuth(user) {
+            authPanel.style.display = 'none';
+            profilePanel.style.display = 'block';
+            profileHeading.textContent = `Welcome back, ${user.name || 'Valued User'}!`;
+            profileText.textContent = 'Your saved profile is ready, and your personalized insurance dashboard is waiting.';
+            profileName.textContent = user.name || 'Valued User';
+            profileEmail.textContent = user.email || 'user@example.com';
+            document.getElementById('myProfileSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleHomeSignUp() {
+            const name = document.getElementById('homeSignupName').value.trim();
+            const email = document.getElementById('homeSignupEmail').value.trim();
+            const password = document.getElementById('homeSignupPassword').value;
+            const confirmPassword = document.getElementById('homeSignupConfirmPassword').value;
+
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Please fill all fields before signing up.');
+                return;
+            }
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                return;
+            }
+            const userData = { name, email, loggedIn: true, signupTime: new Date().toISOString() };
+            localStorage.setItem('HealthInsureUser', JSON.stringify(userData));
+            showProfileAfterAuth(userData);
+        }
+
+        function handleHomeSignIn() {
+            const email = document.getElementById('homeSigninEmail').value.trim();
+            const password = document.getElementById('homeSigninPassword').value;
+            if (!email || !password) {
+                alert('Please enter email and password to sign in.');
+                return;
+            }
+            const existingUser = getHealthInsureUser();
+            const userData = {
+                name: existingUser && existingUser.email === email ? existingUser.name : 'Valued User',
+                email,
+                loggedIn: true,
+                loginTime: new Date().toISOString()
+            };
+            localStorage.setItem('HealthInsureUser', JSON.stringify(userData));
+            showProfileAfterAuth(userData);
+        }
+
+        function handleHomeLogout() {
+            localStorage.removeItem('HealthInsureUser');
+            updateNavAuthLink();
+            profilePanel.style.display = 'none';
+            authPanel.style.display = 'block';
+            showAuthSection('signup');
+            document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        showSignInBtn.addEventListener('click', () => showAuthSection('signin'));
+        showSignUpBtn.addEventListener('click', () => showAuthSection('signup'));
+        homeSignupBtn.addEventListener('click', handleHomeSignUp);
+        homeSigninBtn.addEventListener('click', handleHomeSignIn);
+        homeLogoutBtn.addEventListener('click', handleHomeLogout);
+
+        initHomeAuthState();
+
+        // Toggle chat
+        chatButton.addEventListener('click', function() {
+            const isShowing = chatContainer.classList.contains('show');
+            
+            if (isShowing) {
+                chatContainer.classList.remove('show');
+                chatButton.classList.remove('active');
+                chatButton.innerHTML = '<i class="fas fa-comments"></i>';
+            } else {
+                chatContainer.classList.add('show');
+                chatButton.classList.add('active');
+                chatButton.innerHTML = '<i class="fas fa-times"></i>';
+                
+                if (chatMessages.children.length === 0) {
+                    initializeChat();
+                }
+            }
+        });
+
+        // Message functions
+        function addMessage(text, isBot = true, options = null, isHtml = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isBot ? 'bot-message' : 'user-message'}`;
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            
+            if (isHtml) {
+                bubble.innerHTML = text;
+            } else {
+                bubble.textContent = text;
+            }
+            
+            messageDiv.appendChild(bubble);
+
+            if (options && isBot) {
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+                
+                options.forEach(option => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.textContent = option.text;
+                    btn.onclick = option.action;
+                    optionsDiv.appendChild(btn);
+                });
+                
+                messageDiv.appendChild(optionsDiv);
+            }
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot-message';
+            typingDiv.id = 'typing';
+            typingDiv.innerHTML = `
+                <div class="message-bubble">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typing = document.getElementById('typing');
+            if (typing) typing.remove();
+        }
+
+        function simulateTyping(callback, delay = 1000) {
+            showTypingIndicator();
+            setTimeout(() => {
+                removeTypingIndicator();
+                callback();
+            }, delay);
+        }
+
+        // Main menu
+        function showMainMenu() {
+            conversationState = 'main';
+            simulateTyping(() => {
+                addMessage("How can I assist you today? Choose an option:", true, [
+                    { text: "📋 Common Questions", action: showCommonQuestions },
+                    { text: "🎯 Policy Recommendation", action: startPolicyRecommendation },
+                    { text: "📑 Claim Assistance", action: showClaimAssistance },
+                    { text: "🔧 Interactive Tools", action: showInteractiveTools },
+                    { text: "📞 Customer Support", action: showCustomerSupport }
+                ]);
+            });
+        }
+
+        // Common Questions
+        function showCommonQuestions() {
+            conversationState = 'common_questions';
+            addMessage("📋 Common Questions", false);
+            simulateTyping(() => {
+                addMessage("What would you like to know?", true, [
+                    { text: "💎 Policy Benefits", action: () => showInfo("policy_benefits") },
+                    { text: "💰 Premium Details", action: () => showInfo("premium_details") },
+                    { text: "📝 Claim Process", action: () => showInfo("claim_process") },
+                    { text: "📄 Document Requirements", action: () => showInfo("documents") },
+                    { text: "🏥 Hospital Network", action: () => showInfo("hospitals") },
+                    { text: "⬅️ Back to Main Menu", action: showMainMenu }
+                ]);
+            });
+        }
+
+        function showInfo(topic) {
+            const responses = {
+                policy_benefits: "Our policies offer comprehensive coverage including:\n\n✅ Hospitalization expenses\n✅ Pre & post hospitalization (60 days)\n✅ Day care procedures\n✅ Ambulance charges (up to ₹2,000)\n✅ Room rent coverage\n✅ No claim bonus (up to 50%)\n✅ Tax benefits under 80D\n✅ Cashless treatment at network hospitals",
+                
+                premium_details: "Premium varies based on:\n\n• Age of insured person\n• Sum insured amount\n• Policy type (individual/family floater)\n• Pre-existing conditions\n• Add-on covers\n\nPremiums start from ₹3,500/year. Use our Premium Calculator for personalized quotes!",
+                
+                claim_process: "📝 Claim Filing Steps:\n\n1️⃣ Intimate us within 24-48 hours of hospitalization\n2️⃣ For cashless: Get pre-authorization from hospital\n3️⃣ For reimbursement: Pay bills and collect documents\n4️⃣ Submit claim form with required documents\n5️⃣ Our team reviews within 7-10 days\n6️⃣ Claim settlement within 30 days\n\nTrack your claim 24/7 online!",
+                
+                documents: `Required documents for claims:\n\n${claimDocuments.join('\n')}\n\nKeep all documents ready for faster processing!`,
+                
+                hospitals: "🏥 We have 10,000+ network hospitals across India!\n\nTo find hospitals near you:\n📱 Visit: www.insuranceassist.com/hospitals\n☎️ Call: 1800-XXX-XXXX\n💬 WhatsApp: Share your location\n\nEnjoy cashless treatment at all network hospitals!"
+            };
+
+            const topicTitles = {
+                policy_benefits: "💎 Policy Benefits",
+                premium_details: "💰 Premium Details",
+                claim_process: "📝 Claim Process",
+                documents: "📄 Document Requirements",
+                hospitals: "🏥 Hospital Network"
+            };
+
+            addMessage(topicTitles[topic], false);
+            simulateTyping(() => {
+                addMessage(responses[topic], true);
+                setTimeout(() => showCommonQuestions(), 500);
+            }, 800);
+        }
+
+        // Policy Recommendation
+        function startPolicyRecommendation() {
+            conversationState = 'policy_rec_age';
+            addMessage("🎯 Policy Recommendation", false);
+            simulateTyping(() => {
+                const html = `
+                    Let me help you find the perfect insurance plan!
+                    <div class="input-group">
+                        <label><strong>Your Age:</strong></label>
+                        <input type="number" id="ageInput" placeholder="Enter your age" min="18" max="100">
+                        <button class="submit-btn" onclick="window.submitAge()">Next</button>
+                    </div>
+                `;
+                addMessage(html, true, null, true);
+            });
+        }
+
+        window.submitAge = function() {
+            const age = document.getElementById('ageInput').value;
+            if (!age || age < 18) {
+                alert('Please enter a valid age (18 or above)');
+                return;
+            }
+            userContext.age = age;
+            conversationState = 'policy_rec_health';
+            addMessage(`Age: ${age} years`, false);
+            
+            simulateTyping(() => {
+                const html = `
+                    Great! Now, tell me about your health condition:
+                    <div class="input-group">
+                        <select id="healthInput">
+                            <option value="">Select condition</option>
+                            <option value="excellent">Excellent - No health issues</option>
+                            <option value="good">Good - Minor issues managed</option>
+                            <option value="pre-existing">Pre-existing conditions</option>
+                            <option value="senior">Senior citizen with conditions</option>
+                        </select>
+                        <button class="submit-btn" onclick="window.submitHealth()">Next</button>
+                    </div>
+                `;
+                addMessage(html, true, null, true);
+            });
+        }
+
+        window.submitHealth = function() {
+            const health = document.getElementById('healthInput').value;
+            if (!health) {
+                alert('Please select your health condition');
+                return;
+            }
+            userContext.healthCondition = health;
+            conversationState = 'policy_rec_budget';
+            addMessage(document.getElementById('healthInput').options[document.getElementById('healthInput').selectedIndex].text, false);
+            
+            simulateTyping(() => {
+                const html = `
+                    Perfect! What's your annual budget for insurance?
+                    <div class="input-group">
+                        <select id="budgetInput">
+                            <option value="">Select budget range</option>
+                            <option value="low">₹3,000 - ₹5,000</option>
+                            <option value="medium">₹5,000 - ₹10,000</option>
+                            <option value="high">₹10,000 - ₹20,000</option>
+                            <option value="premium">Above ₹20,000</option>
+                        </select>
+                        <button class="submit-btn" onclick="window.recommendPolicy()">Get Recommendations</button>
+                    </div>
+                `;
+                addMessage(html, true, null, true);
+            });
+        }
+
+        window.recommendPolicy = function() {
+            const budget = document.getElementById('budgetInput').value;
+            if (!budget) {
+                alert('Please select your budget');
+                return;
+            }
+            userContext.budget = budget;
+            addMessage(document.getElementById('budgetInput').options[document.getElementById('budgetInput').selectedIndex].text, false);
+
+            simulateTyping(() => {
+                const age = parseInt(userContext.age);
+                const health = userContext.healthCondition;
+                
+                let recommendations = insurancePlans.filter(plan => {
+                    const [minAge, maxAge] = plan.ageRange.split('-').map(Number);
+                    return age >= minAge && age <= maxAge;
+                });
+
+                if (health === 'senior' || health === 'pre-existing') {
+                    recommendations = recommendations.filter(plan => 
+                        plan.name.includes('Senior') || plan.name.includes('Premium')
+                    );
+                }
+
+                if (recommendations.length === 0) {
+                    recommendations = insurancePlans;
+                }
+
+                let html = "Based on your profile, here are my top recommendations:<br><br>";
+                recommendations.slice(0, 2).forEach(plan => {
+                    html += `
+                        <div class="policy-card">
+                            <h4>${plan.name}</h4>
+                            <p><strong>Coverage:</strong> ${plan.coverage}<br>
+                            <strong>Premium:</strong> ${plan.premium}<br>
+                            <strong>Features:</strong> ${plan.features}</p>
+                        </div>
+                    `;
+                });
+
+                html += "<br>💡 Tip: Consider add-ons like critical illness or maternity based on your needs!";
+                
+                addMessage(html, true, null, true);
+                setTimeout(() => {
+                    addMessage("Would you like to explore more options?", true, [
+                        { text: "📊 Compare All Plans", action: showPolicyComparison },
+                        { text: "💰 Calculate Premium", action: showPremiumCalculator },
+                        { text: "⬅️ Back to Main Menu", action: showMainMenu }
+                    ]);
+                }, 1000);
+            }, 1500);
+        }
+
+        // Claim Assistance
+        function showClaimAssistance() {
+            conversationState = 'claim_assistance';
+            addMessage("📑 Claim Assistance", false);
+            simulateTyping(() => {
+                addMessage("How can I help you with your claim?", true, [
+                    { text: "📝 Steps to File Claim", action: showClaimSteps },
+                    { text: "📄 Required Documents", action: () => showInfo('documents') },
+                    { text: "🔍 Track Claim Status", action: trackClaim },
+                    { text: "💡 Claim Tips", action: showClaimTips },
+                    { text: "⬅️ Back to Main Menu", action: showMainMenu }
+                ]);
+            });
+        }
+
+        function showClaimSteps() {
+            addMessage("📝 Steps to File Claim", false);
+            simulateTyping(() => {
+                const steps = `
+                    <strong>🏥 For Cashless Claims:</strong><br>
+                    1. Visit network hospital<br>
+                    2. Show policy card at admission<br>
+                    3. Hospital sends pre-auth request<br>
+                    4. Approval within 2-4 hours<br>
+                    5. Treatment with no upfront payment<br><br>
+                    
+                    <strong>💵 For Reimbursement Claims:</strong><br>
+                    1. Pay hospital bills<br>
+                    2. Collect all documents<br>
+                    3. Fill claim form<br>
+                    4. Submit within 15 days<br>
+                    5. Get reimbursement in 15-30 days
+                `;
+                addMessage(steps, true, null, true);
+                setTimeout(() => showClaimAssistance(), 1000);
+            }, 1000);
+        }
+
+        function trackClaim() {
+            conversationState = 'track_claim';
+            addMessage("🔍 Track Claim Status", false);
+            simulateTyping(() => {
+                const html = `
+                    Enter your claim number to track status:
+                    <div class="input-group">
+                        <input type="text" id="claimNumber" placeholder="e.g., CLM123456">
+                        <button class="submit-btn" onclick="window.showClaimStatus()">Track</button>
+                    </div>
+                `;
+                addMessage(html, true, null, true);
+            });
+        }
+
+        window.showClaimStatus = function() {
+            const claimNum = document.getElementById('claimNumber').value;
+            if (!claimNum) {
+                alert('Please enter claim number');
+                return;
+            }
+            addMessage(`Claim: ${claimNum}`, false);
+            simulateTyping(() => {
+                const statuses = [
+                    "✅ Received - Documents under review",
+                    "⏳ Processing - Medical verification in progress",
+                    "✅ Approved - Payment initiated",
+                    "📋 Pending - Additional documents required"
+                ];
+                const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                
+                const html = `
+                    <strong>Claim Status:</strong> ${randomStatus}<br><br>
+                    <strong>Claim Number:</strong> ${claimNum}<br>
+                    <strong>Filed Date:</strong> ${new Date(Date.now() - Math.random() * 10 * 24 * 60 * 60 * 1000).toLocaleDateString()}<br>
+                    <strong>Expected Resolution:</strong> 7-10 business days<br><br>
+                    💬 For queries, call: 1800-XXX-XXXX
+                `;
+                addMessage(html, true, null, true);
+                setTimeout(() => showClaimAssistance(), 1000);
+            }, 1000);
+        }
+
+        function showClaimTips() {
+            addMessage("💡 Claim Tips", false);
+            simulateTyping(() => {
+                const tips = `
+                    <strong>✨ Pro Tips for Smooth Claims:</strong><br><br>
+                    ✔ Always intimate within 24-48 hours<br>
+                    ✔ Choose cashless for network hospitals<br>
+                    ✔ Keep all bills and reports organized<br>
+                    ✔ Submit complete documents to avoid delays<br>
+                    ✔ Follow up regularly on claim status<br>
+                    ✔ Retain copies of all submitted documents<br>
+                    ✔ Read policy terms before treatment<br><br>
+                    📞 Need help? Call our 24/7 helpline!
+                `;
+                addMessage(tips, true, null, true);
+                setTimeout(() => showClaimAssistance(), 1000);
+            }, 1000);
+        }
+
+        // Interactive Tools
+        function showInteractiveTools() {
+            conversationState = 'tools';
+            addMessage("🔧 Interactive Tools", false);
+            simulateTyping(() => {
+                addMessage("Choose a tool to get started:", true, [
+                    { text: "💰 Premium Calculator", action: showPremiumCalculator },
+                    { text: "📊 Policy Comparison", action: showPolicyComparison },
+                    { text: "🎯 Risk Score Assessment", action: showRiskScore },
+                    { text: "⬅️ Back to Main Menu", action: showMainMenu }
+                ]);
+            });
+        }
+
+        function showPremiumCalculator() {
+            conversationState = 'premium_calc';
+            addMessage("💰 Premium Calculator", false);
+            simulateTyping(() => {
+                const html = `
+                    Calculate your insurance premium:
+                    <div class="input-group">
+                        <input type="number" id="calcAge" placeholder="Your age" min="18">
+                        <select id="calcCoverage">
+                            <option value="">Select coverage</option>
+                            <option value="300000">₹3 Lakhs</option>
+                            <option value="500000">₹5 Lakhs</option>
+                            <option value="1000000">₹10 Lakhs</option>
+                            <option value="1500000">₹15 Lakhs</option>
+                        </select>
+                        <select id="calcType">
+                            <option value="">Policy type</option>
+                            <option value="individual">Individual</option>
+                            <option value="family">Family Floater</option>
+                        </select>
+                        <button class="submit-btn" onclick="window.calculatePremium()">Calculate</button>
+                    </div>
+                `;
+                addMessage(html, true, null, true);
+            });
+        }
+
+        window.calculatePremium = function() {
+            const age = document.getElementById('calcAge').value;
+            const coverage = document.getElementById('calcCoverage').value;
+            const type = document.getElementById('calcType').value;
+
+            if (!age || !coverage || !type) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            addMessage(`Age: ${age}, Coverage: ${document.getElementById('calcCoverage').options[document.getElementById('calcCoverage').selectedIndex].text}, Type: ${type}`, false);
+            
+            simulateTyping(() => {
+                const basePremium = parseInt(coverage) * 0.012;
+                const ageFactor = age > 45 ? 1.5 : 1;
+                const typeFactor = type === 'family' ? 1.8 : 1;
+                const premium = Math.round(basePremium * ageFactor * typeFactor);
+
+                const html = `
+                    <div class="policy-card">
+                        <h4>💰 Estimated Annual Premium</h4>
+                        <p style="font-size: 24px; color: #667eea; font-weight: bold;">₹${premium.toLocaleString()}</p>
+                        <p><strong>Breakdown:</strong><br>
+                        Base Premium: ₹${basePremium.toLocaleString()}<br>
+                        Age Factor: ${ageFactor}x<br>
+                        Type Factor: ${typeFactor}x<br><br>
+                        💡 Add GST (18%): ₹${Math.round(premium * 1.18).toLocaleString()}</p>
+                    </div>
+                `;
+                addMessage(html, true, null, true);
+                setTimeout(() => showInteractiveTools(), 1000);
+            }, 1000);
+        }
+
+        function showPolicyComparison() {
+            addMessage("📊 Policy Comparison", false);
+            simulateTyping(() => {
+                let html = "<strong>Compare our top plans:</strong><br><br>";
+                insurancePlans.forEach(plan => {
+                    html += `
+                        <div class="policy-card">
+                            <h4>${plan.name}</h4>
+                            <p><strong>Coverage:</strong> ${plan.coverage}<br>
+                            <strong>Premium:</strong> ${plan.premium}<br>
+                            <strong>Age:</strong> ${plan.ageRange} years<br>
+                            <strong>Features:</strong> ${plan.features}</p>
+                        </div>
+                    `;
+                });
+                addMessage(html, true, null, true);
+                setTimeout(() => showInteractiveTools(), 1000);
+            }, 1500);
+        }
+
+        function showRiskScore() {
+            conversationState = 'risk_score';
+            addMessage("🎯 Risk Score Assessment", false);
+            simulateTyping(() => {
+                const html = `
+                    Answer these questions for your risk assessment:
+                    <div class="input-group">
+                        <input type="number" id="riskAge" placeholder="Your age" min="18">
+                        <select id="smoking">
+                            <option value="">Do you smoke?</option>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                        <select id="exercise">
+                            <option value="">Exercise frequency?</option>
+                            <option value="regular">Regular (4+ times/week)</option>
+                            <option value="moderate">Moderate (2-3 times/week)</option>
+                            <option value="rarely">Rarely</option>
+                        </select>
+                        <select id="familyHistory">
+                            <option value="">Family medical history?</option>
+                            <option value="none">No major issues</option>
+                            <option value="minor">Minor conditions</option>
+                            <option value="major">Diabetes/Heart disease/Cancer</option>
+                        </select>
+                        <button class="submit-btn" onclick="window.assessRisk()">Assess Risk</button>
+                    </div>
+                `;
+                addMessage(html, true, null, true);
+            });
+        }
+
+        window.assessRisk = function() {
+            const age = document.getElementById('riskAge').value;
+            const smoking = document.getElementById('smoking').value;
+            const exercise = document.getElementById('exercise').value;
+            const familyHistory = document.getElementById('familyHistory').value;
+
+            if (!age || !smoking || !exercise || !familyHistory) {
+                alert('Please answer all questions');
+                return;
+            }
+
+            addMessage("Assessing my health risk...", false);
+            
+            simulateTyping(() => {
+                let score = 0;
+                let factors = [];
+
+                if (age < 30) score += 10;
+                else if (age < 45) score += 25;
+                else if (age < 60) score += 40;
+                else score += 60;
+
+                if (smoking === 'yes') {
+                    score += 30;
+                    factors.push("🚬 Smoking increases risk significantly");
+                } else {
+                    factors.push("✅ Non-smoker - Lower risk");
+                }
+
+                if (exercise === 'regular') {
+                    score -= 10;
+                    factors.push("✅ Regular exercise - Great for health!");
+                } else if (exercise === 'rarely') {
+                    score += 15;
+                    factors.push("⚠️ Low activity - Consider exercising more");
+                }
+
+                if (familyHistory === 'major') {
+                    score += 25;
+                    factors.push("⚠️ Family history - Higher coverage recommended");
+                } else if (familyHistory === 'none') {
+                    factors.push("✅ No major family history");
+                }
+
+                let riskLevel, riskColor, recommendation;
+                if (score < 30) {
+                    riskLevel = "LOW RISK";
+                    riskColor = "#28a745";
+                    recommendation = "You're in great health! Basic coverage should suffice.";
+                } else if (score < 60) {
+                    riskLevel = "MODERATE RISK";
+                    riskColor = "#ffc107";
+                    recommendation = "Consider comprehensive coverage with add-ons.";
+                } else {
+                    riskLevel = "HIGH RISK";
+                    riskColor = "#dc3545";
+                    recommendation = "Premium coverage with critical illness rider recommended.";
+                }
+
+                const html = `
+                    <div class="policy-card" style="border-left-color: ${riskColor};">
+                        <h4 style="color: ${riskColor};">Risk Score: ${score}/100</h4>
+                        <p style="font-size: 18px; font-weight: bold; color: ${riskColor};">${riskLevel}</p>
+                        <p><strong>Risk Factors:</strong><br>
+                        ${factors.join('<br>')}</p>
+                        <p style="margin-top: 10px;"><strong>📋 Recommendation:</strong><br>
+                        ${recommendation}</p>
+                    </div>
+                `;
+                addMessage(html, true, null, true);
+                setTimeout(() => showInteractiveTools(), 1000);
+            }, 1500);
+        }
+
+        // Customer Support
+        function showCustomerSupport() {
+            conversationState = 'support';
+            addMessage("📞 Customer Support", false);
+            simulateTyping(() => {
+                const html = `
+                    <strong>We're here to help 24/7!</strong><br><br>
+                    
+                    📞 <strong>Helpline:</strong> 1800-XXX-XXXX (Toll-free)<br>
+                    📧 <strong>Email:</strong> support@insuranceassist.com<br>
+                    💬 <strong>WhatsApp:</strong> +91-XXXXX-XXXXX<br>
+                    🌐 <strong>Website:</strong> www.insuranceassist.com<br><br>
+                    
+                    <strong>Office Hours:</strong><br>
+                    Mon-Sat: 9:00 AM - 6:00 PM<br>
+                    Sunday: 10:00 AM - 4:00 PM<br><br>
+                    
+                    <strong>Emergency Claims:</strong> Available 24/7
+                `;
+                addMessage(html, true, null, true);
+                
+                setTimeout(() => {
+                    addMessage("Would you like to connect with a human agent?", true, [
+                        { text: "✅ Yes, Connect Me", action: connectAgent },
+                        { text: "❌ No, Continue Chat", action: showMainMenu }
+                    ]);
+                }, 1000);
+            });
+        }
+
+        function connectAgent() {
+            addMessage("✅ Yes, Connect Me", false);
+            simulateTyping(() => {
+                addMessage("🔄 Connecting you to a live agent...", true);
+                setTimeout(() => {
+                    addMessage("✅ Agent connected!\n\nHello! I'm Priya, your insurance advisor. How can I help you today?", true, [
+                        { text: "⬅️ Back to Main Menu", action: showMainMenu }
+                    ]);
+                }, 2000);
+            }, 500);
+        }
+
+        // Handle text input
+        function handleUserInput() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, false);
+            chatInput.value = '';
+
+            const lowerMessage = message.toLowerCase();
+            
+            simulateTyping(() => {
+                if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                    addMessage("Hello! 👋 Welcome to Insurance Assistant. I'm here to help you with all your insurance needs!", true);
+                    setTimeout(showMainMenu, 500);
+                } else if (lowerMessage.includes('claim')) {
+                    showClaimAssistance();
+                } else if (lowerMessage.includes('policy') || lowerMessage.includes('plan')) {
+                    startPolicyRecommendation();
+                } else if (lowerMessage.includes('premium') || lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+                    showPremiumCalculator();
+                } else if (lowerMessage.includes('hospital')) {
+                    showInfo('hospitals');
+                } else if (lowerMessage.includes('document')) {
+                    showInfo('documents');
+                } else if (lowerMessage.includes('help') || lowerMessage.includes('support')) {
+                    showCustomerSupport();
+                } else if (lowerMessage.includes('compare')) {
+                    showPolicyComparison();
+                } else {
+                    addMessage("I can help you with policy recommendations, claims assistance, premium calculations, and more! Let me show you the main menu:", true);
+                    setTimeout(showMainMenu, 500);
+                }
+            }, 800);
+        }
+
+        sendBtn.addEventListener('click', handleUserInput);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleUserInput();
+        });
+
+        // Initialize chat
+        function initializeChat() {
+            simulateTyping(() => {
+                addMessage("👋 Hello! Welcome to Insurance Assistant. I'm your AI-powered insurance helper, available 24/7!", true);
+                setTimeout(showMainMenu, 800);
+            }, 1000);
+        }
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                document.body.style.backgroundColor = '#1a1a1a';
+            } else {
+                document.body.style.backgroundColor = '#ffffff';
+            }
+        });
+    </script>
+</body>
+</html>

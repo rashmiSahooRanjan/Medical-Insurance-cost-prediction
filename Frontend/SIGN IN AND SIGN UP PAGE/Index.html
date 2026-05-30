@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In & Sign Up - आरोग्य कवच</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Left Side - Branding -->
+        <div class="auth-left">
+            <div>
+                <i class="fas fa-shield-heart" style="font-size: 80px; margin-bottom: 20px;"></i>
+                <h1>आरोग्य कवच</h1>
+                <h2 style="font-size: 1.2rem; margin-bottom: 20px; font-weight: 500;">HealthInsure Pro</h2>
+                <p>Advanced AI-powered insurance cost prediction with personalized savings recommendations.</p>
+                <div style="margin-top: 30px; opacity: 0.8;">
+                    <p><i class="fas fa-check-circle"></i> 95% Accuracy Rate</p>
+                    <p style="margin-top: 10px;"><i class="fas fa-check-circle"></i> 750K+ Predictions Made</p>
+                    <p style="margin-top: 10px;"><i class="fas fa-check-circle"></i> Trusted by Thousands</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side - Forms -->
+        <div class="auth-right">
+            <!-- Sign In Form -->
+            <div class="form-container active" id="signInForm">
+                <div class="form-header">
+                    <h2>Welcome Back!</h2>
+                    <p>Sign in to access your account</p>
+                </div>
+
+                <div class="success-message" id="signInSuccess">
+                    <i class="fas fa-check-circle"></i> Sign in successful! Redirecting...
+                </div>
+
+                <form id="loginForm" onsubmit="return false;">
+                    <div class="input-group">
+                        <label for="loginEmail">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                        </div>
+                        <span class="error-message" id="loginEmailError">Please enter a valid email</span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                            <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword')"></i>
+                        </div>
+                        <span class="error-message" id="loginPasswordError">Password is required</span>
+                    </div>
+
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Remember me</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn" onclick="handleSignIn()">
+                        Sign In
+                    </button>
+
+                    <div class="divider">
+                        <span>OR CONTINUE WITH</span>
+                    </div>
+
+                    <div class="social-login">
+                        <button type="button" class="social-btn" onclick="socialLogin('google')">
+                            <i class="fab fa-google" style="color: #DB4437;"></i>
+                            Google
+                        </button>
+                        <button type="button" class="social-btn" onclick="socialLogin('facebook')">
+                            <i class="fab fa-facebook" style="color: #4267B2;"></i>
+                            Facebook
+                        </button>
+                    </div>
+
+                    <div class="toggle-form">
+                        Don't have an account? <a onclick="toggleForms()">Sign Up</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div class="form-container hidden" id="signUpForm">
+                <div class="form-header">
+                    <h2>Create Account</h2>
+                    <p>Join us and start saving on insurance</p>
+                </div>
+
+                <div class="success-message" id="signUpSuccess">
+                    <i class="fas fa-check-circle"></i> Account created successfully!
+                </div>
+
+                <form id="registerForm" onsubmit="return false;">
+                    <div class="input-group">
+                        <label for="signupName">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="signupName" placeholder="Enter your full name" required>
+                        </div>
+                        <span class="error-message" id="signupNameError">Name is required</span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signupEmail">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                        </div>
+                        <span class="error-message" id="signupEmailError">Please enter a valid email</span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signupPassword">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="signupPassword" placeholder="Create a password" required>
+                            <i class="fas fa-eye password-toggle" onclick="togglePassword('signupPassword')"></i>
+                        </div>
+                        <span class="error-message" id="signupPasswordError">Password must be at least 6 characters</span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signupConfirmPassword">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+                            <i class="fas fa-eye password-toggle" onclick="togglePassword('signupConfirmPassword')"></i>
+                        </div>
+                        <span class="error-message" id="signupConfirmPasswordError">Passwords do not match</span>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">I agree to the Terms & Conditions</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn" onclick="handleSignUp()">
+                        Create Account
+                    </button>
+
+                    <div class="divider">
+                        <span>OR CONTINUE WITH</span>
+                    </div>
+
+                    <div class="social-login">
+                        <button type="button" class="social-btn" onclick="socialLogin('google')">
+                            <i class="fab fa-google" style="color: #DB4437;"></i>
+                            Google
+                        </button>
+                        <button type="button" class="social-btn" onclick="socialLogin('facebook')">
+                            <i class="fab fa-facebook" style="color: #4267B2;"></i>
+                            Facebook
+                        </button>
+                    </div>
+
+                    <div class="toggle-form">
+                        Already have an account? <a onclick="toggleForms()">Sign In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+<script src="script.js"></script>
+</body>
+</html>

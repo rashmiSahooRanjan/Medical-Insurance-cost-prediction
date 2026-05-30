@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Active Plan - आरोग्य कवच</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+    }
+    .policy-card {
+      background: rgba(255, 255, 255, 0.12);
+      padding: 12px;
+      border-radius: 10px;
+      margin: 5px 0;
+      border-left: 4px solid rgba(255,255,255,0.35);
+    }
+    .policy-card h4 { color: #e0e7ff; margin-bottom: 5px; }
+    .policy-card p { font-size: 13px; color: #e5e7eb; line-height: 1.4; white-space: pre-line; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <!-- Navigation -->
+  <nav class="gradient-bg text-white shadow-lg">
+    <div class="container mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <img src="/Frontend/Active Plan/p.jpg" alt="HealthInsure logo" class="h-10" onerror="this.style.display='none'">
+          <span class="ml-3 text-xl font-bold">आरोग्य कवच</span>
+        </div>
+        <div class="hidden md:flex space-x-8 items-center">
+        <a href="/Frontend/FEATURE PAGE/feature.html" class="hover:text-gray-200 transition">Features</a>
+                    <a href="/Frontend/HOW IT WORK PAGE/working.html" class="hover:text-gray-200 transition">How It Works</a>
+                    <a href="http://localhost:8501" class="hover:text-gray-200 transition">Calculator</a>
+                    
+          <a href="/Frontend/PLANS PAGE/plan.html" class="hover:text-gray-200 transition">Plans</a>
+          <a href="/Frontend/Active Plan/Active plan.html" class="hover:text-gray-200 transition">Active Plan</a>
+          <a href="#contactSection" class="hover:text-gray-200 transition">Contact</a>
+          <a id="navAuthLink" href="#authSection" class="hover:text-gray-200 transition">Sign Up</a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Active Plan only for logged-in users -->
+  <section id="activePlanSection" class="py-20 gradient-bg text-white" style="display:none;">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <div class="glass-card p-8">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+            <div>
+              <p class="text-sm uppercase tracking-[0.24em] text-cyan-100/80">Active Plan</p>
+              <h2 class="text-4xl font-bold mt-3" id="activePlanName">-</h2>
+              <p class="mt-3 text-slate-200 text-lg" id="activePlanMeta">-</p>
+            </div>
+            <div>
+              <div class="text-center rounded-2xl bg-white/10 border border-white/20 p-6">
+                <div class="text-sm text-cyan-100/80">Premium</div>
+                <div class="text-3xl font-bold mt-2" id="activePlanPremium">-</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8">
+            <h3 class="text-2xl font-bold mb-4">Full details</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="policy-card">
+                <h4>Coverage</h4>
+                <p id="activePlanCoverage">-</p>
+              </div>
+              <div class="policy-card">
+                <h4>Features</h4>
+                <p id="activePlanFeatures">-</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="/Frontend/PLANS PAGE/plan.html" class="inline-block bg-white text-indigo-700 px-6 py-3 rounded-full font-semibold hover:bg-slate-100 transition">Buy Another Plan</a>
+            <button id="clearActivePlanBtn" class="inline-block bg-red-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-600 transition">Remove Active Plan</button>
+          </div>
+
+          <div class="mt-6 text-slate-200 text-sm">
+            Status: <span class="font-semibold text-white">Active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Auth section shown when not logged in -->
+  <section class="py-20 bg-slate-900 text-white" id="authSection">
+    <div class="container mx-auto px-6">
+      <div id="authPanel" class="rounded-3xl bg-white p-10 shadow-2xl text-slate-900">
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+          <h2 class="text-3xl font-bold" id="authTitle">Create your account</h2>
+          <div class="flex gap-3">
+            <button id="showSignInBtn" class="px-5 py-3 rounded-full border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition">Sign In</button>
+            <button id="showSignUpBtn" class="px-5 py-3 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition">Sign Up</button>
+          </div>
+        </div>
+
+        <form id="homeSignUpForm" onsubmit="return false;">
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div class="input-group">
+              <label for="homeSignupName">Full Name</label>
+              <input type="text" id="homeSignupName" placeholder="Enter full name" required class="payment-box-input">
+            </div>
+            <div class="input-group">
+              <label for="homeSignupEmail">Email Address</label>
+              <input type="email" id="homeSignupEmail" placeholder="Enter email" required class="payment-box-input">
+            </div>
+            <div class="input-group">
+              <label for="homeSignupPassword">Password</label>
+              <input type="password" id="homeSignupPassword" placeholder="Create a password" required class="payment-box-input">
+            </div>
+            <div class="input-group">
+              <label for="homeSignupConfirmPassword">Confirm Password</label>
+              <input type="password" id="homeSignupConfirmPassword" placeholder="Confirm password" required class="payment-box-input">
+            </div>
+          </div>
+          <button id="homeSignupBtn" class="mt-8 w-full bg-indigo-600 text-white px-6 py-4 rounded-full font-semibold hover:bg-indigo-700 transition">Create Account</button>
+        </form>
+
+        <form id="homeSignInForm" onsubmit="return false;" style="display:none;">
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div class="input-group">
+              <label for="homeSigninEmail">Email Address</label>
+              <input type="email" id="homeSigninEmail" placeholder="Enter email" required class="payment-box-input">
+            </div>
+            <div class="input-group">
+              <label for="homeSigninPassword">Password</label>
+              <input type="password" id="homeSigninPassword" placeholder="Enter password" required class="payment-box-input">
+            </div>
+          </div>
+          <button id="homeSigninBtn" class="mt-8 w-full bg-slate-900 text-white px-6 py-4 rounded-full font-semibold hover:bg-slate-800 transition">Sign In</button>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-gray-800 text-white py-12" id="contactSection">
+    <div class="container mx-auto px-6 text-center">
+      <p class="text-gray-400">© 2026 HealthInsure Pro. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // auth + plan storage keys
+    const USER_KEY = 'HealthInsureUser';
+    const PURCHASED_PLAN_KEY = 'PurchasedPlan';
+
+    const navAuthLink = document.getElementById('navAuthLink');
+    const activePlanSection = document.getElementById('activePlanSection');
+    const authSection = document.getElementById('authSection');
+    const authPanel = document.getElementById('authPanel');
+
+    const showSignInBtn = document.getElementById('showSignInBtn');
+    const showSignUpBtn = document.getElementById('showSignUpBtn');
+
+    const homeSignUpForm = document.getElementById('homeSignUpForm');
+    const homeSignInForm = document.getElementById('homeSignInForm');
+
+    const homeSignupBtn = document.getElementById('homeSignupBtn');
+    const homeSigninBtn = document.getElementById('homeSigninBtn');
+
+    const authTitle = document.getElementById('authTitle');
+
+    function getUser() {
+      try {
+        return JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+      } catch {
+        return null;
+      }
+    }
+
+    function setUser(user) {
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+    }
+
+    function updateNavAuthLink() {
+      const user = getUser();
+      if (user && user.loggedIn) {
+        navAuthLink.textContent = 'My Profile';
+        navAuthLink.href = 'MyProfile.html';
+      } else {
+        navAuthLink.textContent = 'Sign Up';
+        navAuthLink.href = '#authSection';
+      }
+    }
+
+    function showAuthMode(mode) {
+      if (mode === 'signin') {
+        authTitle.textContent = 'Sign In to your account';
+        homeSignUpForm.style.display = 'none';
+        homeSignInForm.style.display = 'grid';
+
+        showSignInBtn.classList.add('bg-indigo-600', 'text-white');
+        showSignInBtn.classList.remove('border', 'border-indigo-600', 'text-indigo-600');
+
+        showSignUpBtn.classList.remove('bg-indigo-600', 'text-white');
+        showSignUpBtn.classList.add('border', 'border-indigo-600', 'text-indigo-600');
+      } else {
+        authTitle.textContent = 'Create your account';
+        homeSignUpForm.style.display = 'grid';
+        homeSignInForm.style.display = 'none';
+
+        showSignUpBtn.classList.add('bg-indigo-600', 'text-white');
+        showSignUpBtn.classList.remove('border', 'border-indigo-600', 'text-indigo-600');
+
+        showSignInBtn.classList.remove('bg-indigo-600', 'text-white');
+        showSignInBtn.classList.add('border', 'border-indigo-600', 'text-indigo-600');
+      }
+    }
+
+    function getPurchasedPlanData() {
+      try {
+        const raw = localStorage.getItem(PURCHASED_PLAN_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (!parsed || !parsed.name) return null;
+        return parsed;
+      } catch {
+        return null;
+      }
+    }
+
+    const PLAN_DETAILS = {
+      'Basic Plan': {
+        premiumLabel: '₹' + 5999 + '/year',
+        coverage: 'Up to ₹3 Lakhs',
+        features: 'Cashless Hospitalization\nPre-existing diseases after 2 years\nDaycare Procedures\nAnnual Health Check-up\n24/7 Customer Support'
+      },
+      'Standard Plan': {
+        premiumLabel: '₹' + 11999 + '/year',
+        coverage: 'Up to ₹5 Lakhs',
+        features: 'Cashless Hospitalization\nPre-existing diseases after 1 year\nDaycare Procedures\nMaternity Coverage\nAnnual Health Check-up (2 members)\nAmbulance Charges\nNo Room Rent Limit'
+      },
+      'Premium Plan': {
+        premiumLabel: '₹' + 24999 + '/year',
+        coverage: 'Up to ₹10 Lakhs',
+        features: 'Cashless Hospitalization\nPre-existing diseases covered\nDaycare & Home Care\nMaternity & Newborn Coverage\nAnnual Health Check-up (4 members)\nWorldwide Emergency Cover\nNo Room Rent Limit\nOrgan Donor Expenses\nAlternative Treatment (AYUSH)'
+      }
+    };
+
+    function renderActivePlan() {
+      const purchased = getPurchasedPlanData();
+      if (!purchased) {
+        activePlanSection.style.display = 'none';
+        return;
+      }
+
+      const planName = purchased.name;
+      const price = Number(purchased.price || 0);
+
+      const details = PLAN_DETAILS[planName] || {
+        premiumLabel: price ? (price.toLocaleString('en-IN')) : '-',
+        coverage: '-',
+        features: '-'
+      };
+
+      document.getElementById('activePlanName').textContent = planName;
+      document.getElementById('activePlanMeta').textContent = 'Full details of your selected plan are shown below.';
+      document.getElementById('activePlanPremium').textContent = details.premiumLabel || '-';
+      document.getElementById('activePlanCoverage').textContent = details.coverage || '-';
+      document.getElementById('activePlanFeatures').textContent = details.features || '-';
+
+      activePlanSection.style.display = 'block';
+    }
+
+    // Buttons
+    showSignInBtn.addEventListener('click', () => showAuthMode('signin'));
+    showSignUpBtn.addEventListener('click', () => showAuthMode('signup'));
+
+    // Sign Up
+    homeSignupBtn.addEventListener('click', () => {
+      const name = document.getElementById('homeSignupName').value.trim();
+      const email = document.getElementById('homeSignupEmail').value.trim();
+      const password = document.getElementById('homeSignupPassword').value;
+      const confirmPassword = document.getElementById('homeSignupConfirmPassword').value;
+
+      if (!name || !email || !password || !confirmPassword) {
+        alert('Please fill all fields before signing up.');
+        return;
+      }
+      if (password !== confirmPassword) {
+        alert('Passwords do not match.');
+        return;
+      }
+
+      setUser({ name, email, loggedIn: true, signupTime: new Date().toISOString() });
+      updateNavAuthLink();
+
+      // show active plan if it exists
+      if (getPurchasedPlanData()) {
+        authSection.style.display = 'none';
+        renderActivePlan();
+      } else {
+        // keep auth section visible so user can buy plan
+        authSection.style.display = 'block';
+        activePlanSection.style.display = 'none';
+      }
+    });
+
+    // Sign In
+    homeSigninBtn.addEventListener('click', () => {
+      const email = document.getElementById('homeSigninEmail').value.trim();
+      const password = document.getElementById('homeSigninPassword').value;
+      if (!email || !password) {
+        alert('Please enter email and password to sign in.');
+        return;
+      }
+
+      const existing = getUser();
+      setUser({
+        name: existing && existing.email === email ? existing.name : 'Valued User',
+        email,
+        loggedIn: true,
+        loginTime: new Date().toISOString()
+      });
+
+      updateNavAuthLink();
+
+      if (getPurchasedPlanData()) {
+        authSection.style.display = 'none';
+        renderActivePlan();
+      } else {
+        authSection.style.display = 'block';
+        activePlanSection.style.display = 'none';
+      }
+    });
+
+    // Remove active plan
+    document.getElementById('clearActivePlanBtn').addEventListener('click', () => {
+      localStorage.removeItem(PURCHASED_PLAN_KEY);
+      activePlanSection.style.display = 'none';
+      authSection.style.display = 'block';
+      showAuthMode('signup');
+    });
+
+    // Init on load
+    (function init() {
+      updateNavAuthLink();
+      showAuthMode('signup');
+
+      const user = getUser();
+      if (user && user.loggedIn) {
+        if (getPurchasedPlanData()) {
+          authSection.style.display = 'none';
+          renderActivePlan();
+        } else {
+          authSection.style.display = 'block';
+          activePlanSection.style.display = 'none';
+        }
+      } else {
+        authSection.style.display = 'block';
+        activePlanSection.style.display = 'none';
+      }
+    })();
+  </script>
+</body>
+</html>
+

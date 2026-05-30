@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Enhanced HealthInsure - Advanced Insurance Cost Prediction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+    
+  <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="p.jpg" alt="HealthInsure logo - Shield with heart icon in purple and white" class="h-10">
+                    <span class="ml-3 text-xl font-bold">आरोग्य कवच</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="/Frontend/HOME PAGE/Home.html" class="hover:text-gray-200 transition">Home</a>
+                    <a href="/Frontend/FEATURE PAGE/feature.html" class="hover:text-gray-200 transition">Features</a>
+                    <a href="#how-it-works" class="hover:text-gray-200 transition">How It Works</a>
+                    <a href="http://localhost:8501" class="hover:text-gray-200 transition">Calculator</a>
+                    <a href="/Frontend/PLANS PAGE/plan.html" class="hover:text-gray-200 transition">Plans</a>
+                              <a href="/Frontend/Active Plan/Active plan.html" class="hover:text-gray-200 transition">Active Plan</a>
+                    <a href="/Frontend/TESTIMONAL PAGE/Review.html" class="hover:text-gray-200 transition">Testimonials</a>
+                    <a href="/Frontend/cotact page/contact.html" class="hover:text-gray-200 transition">Contact</a>
+        </div>
+                    
+                
+    </nav>
+
+
+    <!-- Video Demo Section -->
+    <section id="video-demo" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">See How It Works</h2>
+            <p class="text-center text-gray-600 mb-16 max-w-2xl mx-auto">Watch our 90-second demo to see how easily you can get accurate insurance cost predictions.</p>
+            
+            <div class="max-w-4xl mx-auto glass-card overflow-hidden">
+                <div class="aspect-w-16 aspect-h-9">
+                    <div class="w-full h-0 pb-[56.25%] relative">
+                        <iframe src="https://www.youtube.com/embed/Kdsgl2dvh_4?si=KFl5B-Bqe36mCk_D" class="absolute w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <a href="#calculator" class="text-indigo-600 font-semibold hover:text-indigo-800 flex items-center justify-center">
+                    <span>Try it yourself now</span>
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+   
+    
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">How Our Insurance Prediction Works</h2>
+            <p class="text-center text-gray-600 mb-16 max-w-2xl mx-auto">Our AI-powered prediction process uses 50+ data points to estimate your insurance costs</p>
+            
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-10">
+                    <img src="ph.avif" alt="Insurance prediction process flow diagram" class="rounded-lg shadow-lg w-full">
+                </div>
+                <div class="md:w-1/2">
+                    <div class="space-y-8">
+                        <div class="glass-card p-6">
+                            <div class="flex items-start">
+                                <div class="bg-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4">1</div>
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Data Collection</h3>
+                                    <p class="text-gray-600">Simply enter your demographic information, health metrics, lifestyle factors, and coverage preferences.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card p-6">
+                            <div class="flex items-start">
+                                <div class="bg-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4">2</div>
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-800 mb-2">AI Analysis</h3>
+                                    <p class="text-gray-600">Our proprietary algorithms analyze your profile against thousands of insurance rate databases.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card p-6">
+                            <div class="flex items-start">
+                                <div class="bg-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4">3</div>
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Cost Projection</h3>
+                                    <p class="text-gray-600">Using machine learning trained on actual policy rates, we generate customized cost estimates.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">Trusted Results Backed By Data</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="glass-card p-4">
+                        <div class="text-indigo-600 text-3xl font-bold mb-2">95%</div>
+                        <div class="text-gray-600">Accuracy Rate</div>
+                    </div>
+                    <div class="glass-card p-4">
+                        <div class="text-indigo-600 text-3xl font-bold mb-2">750K+</div>
+                        <div class="text-gray-600">Predictions Made</div>
+                    </div>
+                    <div class="glass-card p-4">
+                        <div class="text-indigo-600 text-3xl font-bold mb-2">$800+</div>
+                        <div class="text-gray-600">Average Savings</div>
+                    </div>
+                    <div class="glass-card p-4">
+                        <div class="text-indigo-600 text-3xl font-bold mb-2">4.9★</div>
+                        <div class="text-gray-600">Customer Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="p.jpg" alt="HealthInsure logo in footer" class="h-10">
+                        <span class="ml-3 text-xl font-bold">आरोग्य कवच</span>
+                    </div>
+                    <p class="text-gray-400">Advanced AI for smarter insurance decisions. Save money with confidence.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/Frontend/About page/About.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Press</a></li>
+                        <li><a href="/Frontend/Blog Page/Blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/Frontend/INSURANCE GUIDE/Insurance Guide.html
+                            " class="text-gray-400 hover:text-white transition">Insurance Guide</a></li>
+                        <li><a href="/Frontend/Calculator page/p.html" class="text-gray-400 hover:text-white transition">Health Calculator</a></li>
+                        <li><a href="/Frontend/FAQ PAGE/FAQ.HTML" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+                        <li><a href="/Frontend/cotact page/contact.html" class="text-gray-400 hover:text-white transition">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <p class="text-gray-400">Subscribe to our newsletter</p>
+                    <div class="mt-2 flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg text-gray-800 w-full focus:outline-none">
+                        <button class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-r-lg"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 HealthInsure Pro. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="/Frontend/Privacypolice page/Privacypolicy.html" class="text-gray-400 hover:text-white transition text-sm">Privacy Policy</a>
+                    <a href="/Frontend/TERM OF SERVICES/termofservices.html" class="text-gray-400 hover:text-white transition text-sm">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition text-sm">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+     <Script src="Script.js"></Script>
+
+</body>
+</html>
