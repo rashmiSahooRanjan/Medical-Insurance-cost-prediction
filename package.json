@@ -1,0 +1,17 @@
+{
+  "name": "arogya-kavaj-fullstack",
+  "version": "2.0.0",
+  "description": "Full-Stack Medical Insurance Cost Prediction (React + Node.js + MongoDB Atlas + Python 3.10 ML)",
+  "scripts": {
+    "start": "node backend/server.js",
+    "ml": "py -3.10 ml_service/server.py",
+    "backend": "cd backend && npm start",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently -n \"ML_PYTHON,BACKEND,FRONTEND\" -c \"yellow,blue,green\" \"py -3.10 ml_service/server.py\" \"cd backend && npm start\" \"cd client && npm run dev\"",
+    "build": "cd client && npm run build",
+    "render-build": "cd backend && npm install && cd ../client && npm install && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.5"
+  }
+}
