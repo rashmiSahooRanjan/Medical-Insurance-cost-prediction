@@ -223,6 +223,13 @@ Medical-Insurance-cost-prediction/
 ```
 
 ---
+## 👨‍💻 Authors
+
+| Name                          | Role      |
+| ----------------------------- | --------- |
+| **Rashmi Ranjan Sahoo** | ML Developer |
+| **Prachurya Samal**     | Developer |
+| **Rahul Barika**        | Developer |
 
 ## 🛡️ License
 MIT License. Developed for Arogya Kavaj Medical Insurance Cost Prediction.
